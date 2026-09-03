@@ -1,0 +1,4 @@
+/.bundle/
+/output/
+/coverage/
+*.gem

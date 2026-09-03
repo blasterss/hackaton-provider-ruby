@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+class Provider
+  class <%= provider_class_name %>Service < BaseService
+    BASE_URL = ENV.fetch('<%= base_url_env_name %>', '<%= base_url %>')
+
+<%= render_blocks(:constants) %>
+<%= render_blocks(:public_methods) %>
+
+    private
+
+<%= render_blocks(:private_methods) %>
+  end
+end
