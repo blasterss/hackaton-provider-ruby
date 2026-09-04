@@ -7,6 +7,7 @@ require_relative "provider_integrator/model"
 require_relative "provider_integrator/extractors"
 require_relative "provider_integrator/renderers"
 require_relative "provider_integrator/generators"
+require_relative "provider_integrator/cli"
 
 module ProviderIntegrator
   def self.generate(spec_path, output_dir: "output")
