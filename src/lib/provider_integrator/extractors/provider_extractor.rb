@@ -6,20 +6,13 @@ module ProviderIntegrator
     class ProviderExtractor < Base
       TITLE_SUFFIX = /\s+(?:(?:payout|payment|payments|integration)\s+)?api\b.*\z/i
 
-      attr_reader :slug
-
-      def initialize(document, slug:)
-        super(document)
-        @slug = slug
-      end
-
       def call
         Model::Provider.new(
           name: provider_name,
-          slug: slug,
+          slug: technical_name,
           class_name: class_name,
           base_url: document.servers.first&.url,
-          base_url_env_name: "#{normalized_slug.upcase}_BASE_URL"
+          base_url_env_name: "#{technical_name.upcase}_BASE_URL"
         )
       end
 
@@ -30,11 +23,16 @@ module ProviderIntegrator
       end
 
       def class_name
-        normalized_slug.split("_").map(&:capitalize).join
+        technical_name.split("_").map(&:capitalize).join
       end
 
-      def normalized_slug
-        @normalized_slug ||= slug.downcase.gsub(/[^a-z0-9]+/, "_").gsub(/\A_|_\z/, "")
+      def technical_name
+        @technical_name ||= begin
+          value = provider_name.downcase.gsub(/[^a-z0-9]+/, "_").gsub(/\A_|_\z/, "")
+          raise ArgumentError, "Provider name must contain Latin letters or digits" if value.empty?
+
+          value
+        end
       end
     end
   end
