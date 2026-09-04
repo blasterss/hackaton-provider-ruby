@@ -12,4 +12,14 @@ require_relative "model/operation/error_mapping"
 require_relative "model/operation/response_case"
 require_relative "model/operation/operation"
 
+require_relative "model/webhook/signature"
+require_relative "model/webhook/event_mapping"
+require_relative "model/webhook/webhook"
+
+require_relative "model/rules/condition"
+require_relative "model/rules/status_mapping"
+
+require_relative "model/support/fixture_set"
+require_relative "model/support/diagnostic"
+
 require_relative "model/integration"
