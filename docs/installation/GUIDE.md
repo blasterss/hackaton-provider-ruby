@@ -26,3 +26,13 @@ rbenv local 3.4.10
 ruby --version
 bundle --version
 ```
+
+## Установка зависимостей
+
+```bash
+bundle install
+```
+
+Для чтения и валидации OpenAPI 3 используется open-source гем
+`openapi3_parser`. Доступ к нему из приложения изолирован адаптером
+`ProviderIntegrator::Parsers::Openapi`.
