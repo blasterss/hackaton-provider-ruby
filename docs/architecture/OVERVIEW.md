@@ -28,6 +28,30 @@ provider_api.yaml
        └── fixtures.json
 ```
 
+## Текущий статус
+
+Сейчас реализован минимальный сквозной запуск для Ruby-сервиса:
+
+```text
+CLI → OpenAPI Parser → Provider/Auth Extractors → Integration Model
+    → Service Generator → ERB Renderer → <provider>_service.rb
+```
+
+Команда:
+
+```bash
+./integrate --spec config/provider_api.yaml
+```
+
+валидирует OpenAPI средствами `openapi3_parser`, вычисляет данные провайдера из
+`info.title`, извлекает API key или bearer authentication и создаёт
+`output/novapay_service.rb`. `slug` является вычисленным полем `Provider` и не
+передаётся через CLI.
+
+Сгенерированный сервис пока является каркасом: `create_request`, `fetch_status`,
+`process_callback` и `check_conditions` завершаются `NotImplementedError`.
+
+
 ## Слои
 
 ### Parsers
@@ -54,8 +78,8 @@ provider_api.yaml
 
 ### Renderers
 
-Единственная ответственность - загрузить ERB, передать ему модель и записать
-результат.
+Единственная ответственность - загрузить ERB, передать ему модель и вернуть
+отрендеренный текст. Запись результата выполняет generator.
 
 ## ERB-шаблоны
 

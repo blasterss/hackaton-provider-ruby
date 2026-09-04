@@ -15,3 +15,16 @@ src/
     ├── documentation/
     └── fixtures/
 ```
+
+Модели сгруппированы по назначению:
+
+```text
+model/
+├── integration.rb
+├── value_object.rb
+├── provider/          # provider, authentication, gateway config
+├── operation/         # HTTP operation, параметры, поля и ответы
+├── webhook/           # callback, подпись и события
+├── rules/             # условия и статусы
+└── support/           # fixtures и diagnostics
+```

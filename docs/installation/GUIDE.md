@@ -37,6 +37,14 @@ bundle install
 `openapi3_parser`. Доступ к нему из приложения изолирован адаптером
 `ProviderIntegrator::Parsers::Openapi`.
 
+## Запуск генератора
+
+Из корня репозитория:
+
+```bash
+./integrate --spec config/provider_api.yaml
+```
+
 ## Форматирование Ruby
 
 ```bash

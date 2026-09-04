@@ -12,8 +12,7 @@ flowchart LR
     blocks["5. Ruby-блоки<br/>NovaPay vertical slice"]
     generators["6. Generators<br/>service, docs, fixtures"]
     cli["7. CLI<br/>валидация и вывод"]
-    tests["8. Tests<br/>unit и end-to-end"]
-    release["9. Готовый MVP<br/>демо NovaPay"]
+    release["8. Готовый MVP<br/>демо NovaPay"]
 
     foundation --> model
     model --> parser
@@ -23,30 +22,37 @@ flowchart LR
     extractors --> generators
     blocks --> generators
     generators --> cli
-    generators --> tests
-    cli --> tests
-    tests --> release
+    cli --> release
 
     classDef done fill:#d1fae5,stroke:#047857,color:#064e3b
     classDef next fill:#fef3c7,stroke:#d97706,color:#78350f
     classDef pending fill:#f3f4f6,stroke:#6b7280,color:#111827
 
-    class foundation done
-    class model next
-    class parser,extractors,renderer,blocks,generators,cli,tests,release pending
+    class foundation,model,parser,renderer done
+    class extractors,blocks,generators,cli next
+    class release pending
 ```
+
+## Текущий этап
+
+Минимальный путь от CLI до Ruby-файла работает. Он предназначен для проверки
+границ слоёв и пока генерирует сервис с методами-заготовками.
 
 ## Этапы
 
 - [x] Подготовить каталоги слоёв и ERB-шаблонов.
-- [ ] Описать `Integration` и вложенные value objects.
-- [ ] Реализовать чтение OpenAPI и локальных `$ref`.
+- [x] Описать `Integration` и вложенные value objects.
+- [x] Реализовать классы `Integration Model`.
+- [ ] Реализовать проверку инвариантов модели.
+- [x] Подключить `openapi3_parser` через собственный parser adapter.
+- [x] Извлечь provider metadata и authentication в промежуточную модель.
 - [ ] Извлечь данные NovaPay в промежуточную модель.
-- [ ] Реализовать ERB renderer и подключение partial-блоков.
+- [x] Реализовать базовый ERB renderer и подключение partial-блоков.
 - [ ] Добавить блоки `create_request`, `fetch_status`, callback и mappings.
+- [x] Собрать минимальный generator Ruby-сервиса.
 - [ ] Собрать генераторы сервиса, документации и фикстур.
-- [ ] Подключить CLI и понятные сообщения об ошибках.
-- [ ] Покрыть слои unit-тестами и добавить end-to-end fixture.
+- [x] Подключить минимальный CLI с `--spec`, `--output` и кодами завершения.
+- [ ] Добавить проверку полноты модели и подробные diagnostics в CLI.
 - [ ] Проверить полный сценарий на `config/provider_api.yaml`.
 
 ## Критерий готовности MVP
