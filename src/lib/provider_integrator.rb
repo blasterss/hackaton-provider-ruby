@@ -2,6 +2,7 @@
 
 require_relative "provider_integrator/parsers/base"
 require_relative "provider_integrator/parsers/openapi"
+require_relative "provider_integrator/base_service"
 require_relative "provider_integrator/model"
 require_relative "provider_integrator/extractors"
 require_relative "provider_integrator/renderers"
