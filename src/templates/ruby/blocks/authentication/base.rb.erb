@@ -1,1 +1,7 @@
-<%# Базовый блок авторизации. %>
+    def auth_headers
+<% if integration.authentication&.location == :header -%>
+      { "<%= integration.authentication.parameter_name %>" => credentials.fetch(:<%= integration.authentication.credential_key %>) }
+<% else -%>
+      {}
+<% end -%>
+    end
