@@ -36,3 +36,10 @@ bundle install
 Для чтения и валидации OpenAPI 3 используется open-source гем
 `openapi3_parser`. Доступ к нему из приложения изолирован адаптером
 `ProviderIntegrator::Parsers::Openapi`.
+
+## Форматирование Ruby
+
+```bash
+bundle exec rubocop -x  # исправить только форматирование
+bundle exec rubocop     # проверить стиль
+```

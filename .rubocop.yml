@@ -1,0 +1,11 @@
+AllCops:
+  TargetRubyVersion: 3.4
+  DisabledByDefault: true
+  NewCops: enable
+  UseCache: false
+
+Layout:
+  Enabled: true
+
+Layout/MultilineMethodArgumentLineBreaks:
+  Enabled: true
