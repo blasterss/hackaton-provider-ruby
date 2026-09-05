@@ -5,11 +5,11 @@ module ProviderIntegrator
     # Собирает нормализованную Integration Model из результатов extractors.
     class IntegrationExtractor < Base
       def call
+        webhook = Webhook::Extractor.new(document).call
         operations = [
           CreateRequest::Extractor.new(document).call,
           *Operations::Extractor.new(document).call
-        ].compact
-        webhook = Webhook::Extractor.new(document).call
+        ].compact.reject { |operation| webhook_operation?(operation, webhook) }
         status_mappings = StatusMappingExtractor.new(document, operations: operations).call
         fixtures = FixtureExtractor.new(document, operations: operations, webhook: webhook).call
 
@@ -30,6 +30,12 @@ module ProviderIntegrator
             fixtures: fixtures
           ).call
         )
+      end
+
+      private
+
+      def webhook_operation?(operation, webhook)
+        webhook && operation.http_method == :post && operation.path == webhook.path
       end
     end
   end
