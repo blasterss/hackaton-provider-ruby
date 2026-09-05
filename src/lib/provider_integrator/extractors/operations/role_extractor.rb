@@ -35,16 +35,11 @@ module ProviderIntegrator
         def response_role
           return unless http_method == :get
 
-          properties = success_schema&.properties&.keys.to_a
+          properties = success_schemas(operation).flat_map { |schema| schema.properties&.keys.to_a }.uniq
           return :fetch_balance if properties.include?("balance")
           return :fetch_status if properties.include?("status") && path_parameters?
 
           nil
-        end
-
-        def success_schema
-          response = operation.responses.find { |status, _candidate| status.start_with?("2") }&.last
-          response&.content&.values&.filter_map(&:schema)&.first
         end
 
         def path_parameters?

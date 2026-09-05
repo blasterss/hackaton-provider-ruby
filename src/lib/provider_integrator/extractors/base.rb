@@ -35,6 +35,17 @@ module ProviderIntegrator
       def parameter_key(parameter)
         [parameter.name, parameter.public_send(:in)]
       end
+
+      # Возвращает schemas из всех успешных responses и media types операции.
+      def success_schemas(operation)
+        return [] unless operation
+
+        operation.responses.flat_map do |status, response|
+          next [] unless status.start_with?("2")
+
+          response.content&.values&.filter_map(&:schema) || []
+        end
+      end
     end
   end
 end

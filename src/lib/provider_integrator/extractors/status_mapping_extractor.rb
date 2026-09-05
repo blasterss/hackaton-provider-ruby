@@ -38,15 +38,9 @@ module ProviderIntegrator
         return [] unless operation
 
         openapi_operation = document.paths[operation.path]&.public_send(operation.http_method)
-        response = openapi_operation&.responses&.find do |status, _candidate|
-          status.start_with?("2")
-        end&.last
-        schema = response&.content&.values&.filter_map(&:schema)&.find do |candidate|
-          candidate.properties&.keys&.include?("status")
-        end
-
-        status_schema = schema&.properties&.[]("status")
-        status_schema&.enum&.to_a || []
+        success_schemas(openapi_operation).flat_map do |schema|
+          schema.properties&.[]("status")&.enum&.to_a || []
+        end.uniq
       end
     end
   end
