@@ -10,10 +10,13 @@ require_relative "provider_integrator/generators"
 require_relative "provider_integrator/cli"
 
 module ProviderIntegrator
-  def self.generate(spec_path, output_dir: "output")
+  def self.build(spec_path)
     document = Parsers::Openapi.new(spec_path).parse
-    integration = Extractors::IntegrationExtractor.new(document).call
+    Extractors::IntegrationExtractor.new(document).call
+  end
 
+  def self.generate(spec_path, output_dir: "output")
+    integration = build(spec_path)
     Generators::ServiceGenerator.new.call(integration, output_dir: output_dir)
   end
 end

@@ -28,3 +28,15 @@ model/
 ├── rules/             # условия и статусы
 └── support/           # fixtures и diagnostics
 ```
+
+Модель можно построить отдельно от генерации:
+
+```ruby
+integration = ProviderIntegrator.build("../config/provider_api.yaml")
+```
+
+Или вывести как JSON через CLI без записи выходных файлов:
+
+```bash
+./integrate --spec config/provider_api.yaml --dump-model
+```

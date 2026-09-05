@@ -45,6 +45,12 @@ bundle install
 ./integrate --spec config/provider_api.yaml
 ```
 
+Чтобы вывести промежуточную `Integration Model` как JSON без генерации файлов:
+
+```bash
+./integrate --spec config/provider_api.yaml --dump-model
+```
+
 ## Форматирование Ruby
 
 ```bash

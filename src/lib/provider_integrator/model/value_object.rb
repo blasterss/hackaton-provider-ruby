@@ -46,8 +46,10 @@ module ProviderIntegrator
           value.map { |item| serialize(item) }
         when Hash
           value.to_h { |key, item| [key, serialize(item)] }
+        when ValueObject
+          value.to_h
         else
-          value.respond_to?(:to_h) ? value.to_h : value
+          value
         end
       end
     end
