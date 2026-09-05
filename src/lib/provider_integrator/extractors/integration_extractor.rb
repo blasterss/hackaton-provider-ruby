@@ -14,6 +14,7 @@ module ProviderIntegrator
           provider: ProviderExtractor.new(document).call,
           authentication: AuthenticationExtractor.new(document).call,
           operations: operations,
+          webhook: Webhook::Extractor.new(document).call,
           conditions: ConditionExtractor.new(document, operations: operations).call,
           error_mappings: ErrorMappingExtractor.new(document, operations: operations).call,
           status_mappings: StatusMappingExtractor.new(document, operations: operations).call
