@@ -7,7 +7,7 @@ module ProviderIntegrator
       def call
         operations = [
           CreateRequest::Extractor.new(document).call,
-          *OperationsExtractor.new(document).call
+          *Operations::Extractor.new(document).call
         ].compact
         webhook = Webhook::Extractor.new(document).call
 
