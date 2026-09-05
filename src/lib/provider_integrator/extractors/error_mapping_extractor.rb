@@ -8,7 +8,7 @@ module ProviderIntegrator
 
       PROVIDER_CODE_POLICIES = {
         "validation_error" => { internal_code: "validation_error", action: :reject, retryable: false },
-        "unauthorized" => { internal_code: "unauthorized", action: :block, retryable: false },
+        "unauthorized" => { internal_code: "invalid_credentials", action: :block, retryable: false },
         "insufficient_balance" => { internal_code: "insufficient_balance", action: :retry, retryable: true },
         "not_found" => { internal_code: "not_found", action: :reject, retryable: false },
         "recipient_not_found" => { internal_code: "recipient_not_found", action: :reject, retryable: false },
@@ -21,7 +21,7 @@ module ProviderIntegrator
 
       HTTP_STATUS_POLICIES = {
         "400" => { internal_code: "validation_error", action: :reject, retryable: false },
-        "401" => { internal_code: "unauthorized", action: :block, retryable: false },
+        "401" => { internal_code: "invalid_credentials", action: :block, retryable: false },
         "402" => { internal_code: "insufficient_balance", action: :retry, retryable: true },
         "404" => { internal_code: "not_found", action: :reject, retryable: false },
         "422" => { internal_code: "validation_error", action: :reject, retryable: false },
