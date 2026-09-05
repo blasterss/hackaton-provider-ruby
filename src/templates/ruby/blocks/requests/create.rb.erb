@@ -1,0 +1,20 @@
+<%
+  create_operation = service_view.operation(:create_request)
+  header_parameters = create_operation.parameters.select do |parameter|
+    parameter.location == :header && (parameter.source_path || parameter.transform == :constant)
+  end
+-%>
+    def create_request(operation, _request_method = "create")
+      payload = build_create_request_payload(operation)
+      headers = auth_headers
+<% header_parameters.each do |parameter| -%>
+      headers[<%= parameter.name.dump %>] = <%= service_view.value_expression(parameter) %>
+<% end -%>
+      response = client.<%= create_operation.http_method %>(
+        "#{BASE_URL}<%= create_operation.path %>",
+        json: payload,
+        headers: headers
+      )
+
+      parse_create_response(operation, response)
+    end

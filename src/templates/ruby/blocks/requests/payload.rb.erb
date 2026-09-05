@@ -1,0 +1,4 @@
+<% create_operation = service_view.operation(:create_request) -%>
+    def build_create_request_payload(operation)
+      <%= service_view.payload_source(create_operation.request_fields, indent: 6) %>
+    end

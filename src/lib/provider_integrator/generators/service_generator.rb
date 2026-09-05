@@ -11,7 +11,6 @@ module ProviderIntegrator
         constants: [],
         public_methods: [
           "ruby/blocks/conditions/base.rb.erb",
-          "ruby/blocks/requests/base.rb.erb",
           "ruby/blocks/callbacks/base.rb.erb"
         ],
         private_methods: ["ruby/blocks/authentication/base.rb.erb"]
@@ -22,9 +21,10 @@ module ProviderIntegrator
       end
 
       def call(integration, output_dir: "output")
+        service_view = ServiceView.new(integration)
         content = renderer.render(
           TEMPLATE,
-          locals: { integration: integration },
+          locals: { integration: integration, service_view: service_view },
           blocks: blocks_for(integration)
         )
 
@@ -36,10 +36,30 @@ module ProviderIntegrator
       attr_reader :renderer
 
       def blocks_for(integration)
+        request_blocks = request_blocks_for(integration)
         status_blocks = status_blocks_for(integration)
 
         BLOCKS.to_h do |group, templates|
-          [group, templates + status_blocks.fetch(group)]
+          [group, templates + request_blocks.fetch(group) + status_blocks.fetch(group)]
+        end
+      end
+
+      def request_blocks_for(integration)
+        if create_request_supported?(integration)
+          {
+            constants: [],
+            public_methods: ["ruby/blocks/requests/create.rb.erb"],
+            private_methods: [
+              "ruby/blocks/requests/payload.rb.erb",
+              "ruby/blocks/requests/response.rb.erb"
+            ]
+          }
+        else
+          {
+            constants: [],
+            public_methods: ["ruby/blocks/requests/base.rb.erb"],
+            private_methods: []
+          }
         end
       end
 
@@ -62,6 +82,11 @@ module ProviderIntegrator
       def status_supported?(integration)
         integration.operations.any? { |operation| operation.role == :fetch_status } &&
           integration.status_mappings.any?
+      end
+
+      def create_request_supported?(integration)
+        operation = integration.operations.find { |candidate| candidate.role == :create_request }
+        operation && operation.request_fields.any?
       end
     end
   end
