@@ -5,7 +5,7 @@ module ProviderIntegrator
     module Webhook
       # Находит входящую webhook-операцию в OpenAPI paths.
       class OperationExtractor < Base
-        Endpoint = Data.define(:path, :operation)
+        Endpoint = Data.define(:path, :path_item, :operation)
 
         def call
           document.paths.each do |path, path_item|
@@ -13,7 +13,7 @@ module ProviderIntegrator
             next unless operation
             next unless webhook_operation?(operation)
 
-            return Endpoint.new(path: path, operation: operation)
+            return Endpoint.new(path: path, path_item: path_item, operation: operation)
           end
 
           nil

@@ -11,7 +11,11 @@ module ProviderIntegrator
 
           Model::Webhook.new(
             path: endpoint.path,
-            signature: SignatureExtractor.new(document, operation: endpoint.operation).call,
+            signature: SignatureExtractor.new(
+              document,
+              path_item: endpoint.path_item,
+              operation: endpoint.operation
+            ).call,
             event_mappings: EventMappingExtractor.new(document, operation: endpoint.operation).call,
             source_pointer: "/paths/#{escape_pointer(endpoint.path)}/post"
           )

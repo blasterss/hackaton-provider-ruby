@@ -14,8 +14,9 @@ module ProviderIntegrator
           /\bbase[-_\s]?64\b/i => :base64
         }.freeze
 
-        def initialize(document, operation:)
+        def initialize(document, path_item:, operation:)
           super(document)
+          @path_item = path_item
           @operation = operation
         end
 
@@ -34,10 +35,10 @@ module ProviderIntegrator
 
         private
 
-        attr_reader :operation
+        attr_reader :path_item, :operation
 
         def signature_header
-          operation.parameters.to_a.find do |parameter|
+          effective_parameters(path_item, operation).find do |parameter|
             parameter.public_send(:in) == "header" &&
               [parameter.name, parameter.description].compact.any? { |value| value.match?(/signature|подпис/i) }
           end
@@ -52,7 +53,7 @@ module ProviderIntegrator
         end
 
         def signature_description(header)
-          [operation.description, header&.description].compact.join(" ")
+          [operation.description, header&.name, header&.description].compact.join(" ")
         end
       end
     end
