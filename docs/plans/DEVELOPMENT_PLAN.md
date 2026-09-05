@@ -28,15 +28,16 @@ flowchart LR
     classDef next fill:#fef3c7,stroke:#d97706,color:#78350f
     classDef pending fill:#f3f4f6,stroke:#6b7280,color:#111827
 
-    class foundation,model,parser,renderer done
-    class extractors,blocks,generators,cli next
+    class foundation,model,parser,extractors,renderer,blocks,generators done
+    class cli next
     class release pending
 ```
 
 ## Текущий этап
 
-Минимальный путь от CLI до Ruby-файла работает. Он предназначен для проверки
-границ слоёв и пока генерирует сервис с методами-заготовками.
+Вертикальный срез NovaPay генерирует Ruby-сервис, руководство по интеграции и
+JSON-фикстуры из одной Integration Model. Следующий этап — формализовать
+инварианты модели и вывести diagnostics через CLI.
 
 ## Этапы
 
@@ -48,16 +49,16 @@ flowchart LR
 - [x] Извлечь provider metadata и authentication в промежуточную модель.
 - [x] Извлечь базовую `create_request` operation без генерации Ruby-блока.
 - [x] Извлечь `fetch_status` operation и enum статусов.
-- [ ] Извлечь данные NovaPay в промежуточную модель.
+- [x] Извлечь данные NovaPay в промежуточную модель.
 - [x] Реализовать базовый ERB renderer и подключение partial-блоков.
 - [x] Добавить блоки `fetch_status` и `STATUS_MAP`.
-- [ ] Добавить блоки `create_request`, callback и остальные mappings.
+- [x] Добавить блоки `create_request`, callback и остальные mappings.
 - [x] Собрать минимальный generator Ruby-сервиса.
-- [ ] Собрать генераторы сервиса, документации и фикстур.
+- [x] Собрать генераторы сервиса, документации и фикстур.
 - [x] Подключить минимальный CLI с `--spec`, `--output` и кодами завершения.
 - [x] Добавить просмотр промежуточной модели через `build` и `--dump-model`.
 - [ ] Добавить проверку полноты модели и подробные diagnostics в CLI.
-- [ ] Проверить полный сценарий на `config/provider_api.yaml`.
+- [x] Проверить полный сценарий на `config/provider_api.yaml`.
 
 ## Критерий готовности MVP
 

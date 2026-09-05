@@ -30,11 +30,13 @@ provider_api.yaml
 
 ## Текущий статус
 
-Сейчас реализован минимальный сквозной запуск для Ruby-сервиса:
+Реализован сквозной запуск для трёх артефактов:
 
 ```text
-CLI → OpenAPI Parser → Provider/Auth Extractors → Integration Model
-    → Service Generator → ERB Renderer → <provider>_service.rb
+CLI → OpenAPI Parser → Extractors → Integration Model
+    ├── ServiceGenerator       → <provider>_service.rb
+    ├── DocumentationGenerator → INTEGRATION.md
+    └── FixtureGenerator       → fixtures.json
 ```
 
 Команда:
@@ -43,10 +45,9 @@ CLI → OpenAPI Parser → Provider/Auth Extractors → Integration Model
 ./integrate --spec config/provider_api.yaml
 ```
 
-валидирует OpenAPI средствами `openapi3_parser`, вычисляет данные провайдера из
-`info.title`, извлекает API key или bearer authentication, базовое описание
-`create_request`, status endpoint и маппинг известных статусов, после чего
-создаёт `output/novapay_service.rb`.
+валидирует OpenAPI средствами `openapi3_parser`, извлекает данные провайдера,
+авторизацию, операции, mappings, callback и examples, после чего создаёт
+`output/novapay_service.rb`, `output/INTEGRATION.md` и `output/fixtures.json`.
 `slug` является вычисленным полем `Provider` и не передаётся через CLI.
 
 
@@ -70,9 +71,11 @@ CLI → OpenAPI Parser → Provider/Auth Extractors → Integration Model
 
 ### Generators
 
-Выбирают выходные артефакты и наборы блоков. Например, наличие API key включает
-блок `authentication/api_key`, а наличие HMAC webhook - блок
-`callbacks/hmac_sha256`.
+Каждый генератор отвечает за один артефакт. `ServiceGenerator` выбирает Ruby-
+блоки по возможностям модели, `DocumentationGenerator` собирает разделы
+руководства, а `FixtureGenerator` сериализует извлечённые OpenAPI examples.
+`ServiceView` и `DocumentationView` подготавливают выражения и отображаемые
+значения.
 
 ### Renderers
 
@@ -82,8 +85,10 @@ CLI → OpenAPI Parser → Provider/Auth Extractors → Integration Model
 ## ERB-шаблоны
 
 `src/templates/ruby/service.rb.erb` задаёт каркас класса и точки вставки.
-Переиспользуемые фрагменты лежат в `src/templates/ruby/blocks`. Блок должен быть
-небольшим и отвечать за одну возможность.
+Переиспользуемые фрагменты лежат в `src/templates/ruby/blocks`. Документация
+собирается из `documentation/integration.md.erb` и файлов `sections`, а JSON —
+из `fixtures/fixtures.json.erb`. Блок должен быть небольшим и отвечать за одну
+возможность.
 
 Документация и JSON-фикстуры имеют отдельные корневые шаблоны. Они используют ту
 же промежуточную модель, поэтому содержимое всех трёх артефактов остаётся

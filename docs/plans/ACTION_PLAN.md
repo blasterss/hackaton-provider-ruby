@@ -38,7 +38,7 @@ flowchart TD
 ## Результат запуска
 
 ```text
-output/<provider>/
+output/
 ├── <provider>_service.rb
 ├── INTEGRATION.md
 └── fixtures.json

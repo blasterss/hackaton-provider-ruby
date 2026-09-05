@@ -6,7 +6,7 @@ src/
 │   ├── parsers/       # YAML/OpenAPI → документ
 │   ├── extractors/    # документ → факты интеграции
 │   ├── model/         # промежуточная модель
-│   ├── generators/    # выбор артефактов и блоков
+│   ├── generators/    # service, documentation и fixture generators
 │   └── renderers/     # ERB → файлы
 └── templates/
     ├── ruby/
@@ -32,7 +32,17 @@ model/
 Модель можно построить отдельно от генерации:
 
 ```ruby
-integration = ProviderIntegrator.build("../config/provider_api.yaml")
+integration = ProviderIntegrator.build("config/provider_api.yaml")
+```
+
+Полная генерация возвращает пути ко всем созданным артефактам:
+
+```ruby
+paths = ProviderIntegrator.generate(
+  "config/provider_api.yaml",
+  output_dir: "output"
+)
+# => ["output/novapay_service.rb", "output/INTEGRATION.md", "output/fixtures.json"]
 ```
 
 Или вывести как JSON через CLI без записи выходных файлов:
