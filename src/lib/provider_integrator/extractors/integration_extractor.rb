@@ -15,7 +15,7 @@ module ProviderIntegrator
 
         Model::Integration.new(
           provider: ProviderExtractor.new(document).call,
-          authentication: AuthenticationExtractor.new(document).call,
+          authentication: AuthenticationExtractor.new(document, operations: operations).call,
           operations: operations,
           webhook: webhook,
           conditions: ConditionExtractor.new(document, operations: operations).call,

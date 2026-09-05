@@ -2,23 +2,49 @@
 
 module ProviderIntegrator
   module Extractors
-    # Извлекает поддерживаемую схему авторизации из components.securitySchemes.
+    # Извлекает схему авторизации, используемую исходящими операциями.
     class AuthenticationExtractor < Base
       class UnsupportedAuthenticationError < StandardError
       end
 
-      def call
-        return if security_schemes.empty?
-        raise UnsupportedAuthenticationError,
-              "Multiple security schemes are not supported yet" if security_schemes.size > 1
+      def initialize(document, operations:)
+        super(document)
+        @operations = operations
+      end
 
-        build_authentication(security_schemes.values.first)
+      def call
+        scheme_names = required_security_scheme_names
+        return if scheme_names.empty?
+        raise UnsupportedAuthenticationError,
+              "Multiple security schemes are not supported yet" if scheme_names.size > 1
+
+        build_authentication(security_schemes[scheme_names.first])
       end
 
       private
 
+      attr_reader :operations
+
       def security_schemes
         document.components&.security_schemes || {}
+      end
+
+      def required_security_scheme_names
+        operations.flat_map do |operation|
+          openapi_operation = document.paths[operation.path]&.public_send(operation.http_method)
+          security_requirements(openapi_operation).flat_map(&:keys)
+        end.uniq
+      end
+
+      def security_requirements(operation)
+        return [] unless operation
+
+        requirements = if operation.node_context.input.key?("security")
+                         operation.security.to_a
+                       else
+                         document.security.to_a
+                       end
+        requirements.any? { |requirement| requirement.keys.empty? } ? [] : requirements
       end
 
       def build_authentication(scheme)
