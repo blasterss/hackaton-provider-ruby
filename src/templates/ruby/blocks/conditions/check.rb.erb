@@ -1,0 +1,9 @@
+    def check_conditions(operation, _request_method)
+<% integration.conditions.each do |condition| -%>
+      if <%= service_view.condition_failure_expression(condition) %>
+        return failure(:unprocessable_entity, <%= condition.failure_code.dump %>)
+      end
+<% end -%>
+
+      success
+    end

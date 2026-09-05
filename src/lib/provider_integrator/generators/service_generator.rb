@@ -10,7 +10,6 @@ module ProviderIntegrator
       BLOCKS = {
         constants: [],
         public_methods: [
-          "ruby/blocks/conditions/base.rb.erb",
           "ruby/blocks/callbacks/base.rb.erb"
         ],
         private_methods: ["ruby/blocks/authentication/base.rb.erb"]
@@ -36,6 +35,7 @@ module ProviderIntegrator
       attr_reader :renderer
 
       def blocks_for(integration)
+        condition_blocks = condition_blocks_for(integration)
         error_blocks = error_blocks_for(integration)
         request_blocks = request_blocks_for(integration)
         status_blocks = status_blocks_for(integration)
@@ -43,8 +43,25 @@ module ProviderIntegrator
         BLOCKS.to_h do |group, templates|
           [
             group,
-            templates + error_blocks.fetch(group) + request_blocks.fetch(group) + status_blocks.fetch(group)
+            templates + error_blocks.fetch(group) + condition_blocks.fetch(group) +
+              request_blocks.fetch(group) + status_blocks.fetch(group)
           ]
+        end
+      end
+
+      def condition_blocks_for(integration)
+        if integration.conditions.any?
+          {
+            constants: [],
+            public_methods: ["ruby/blocks/conditions/check.rb.erb"],
+            private_methods: []
+          }
+        else
+          {
+            constants: [],
+            public_methods: ["ruby/blocks/conditions/base.rb.erb"],
+            private_methods: []
+          }
         end
       end
 

@@ -40,6 +40,26 @@ module ProviderIntegrator
         "#{target} = #{value_expression(mapping)}"
       end
 
+      def condition_failure_expression(condition)
+        field = source_expression(condition.field)
+        value = ruby_literal(condition.value)
+
+        case condition.operator
+        when :greater_than_or_equal
+          "#{field} < #{value}"
+        when :greater_than
+          "#{field} <= #{value}"
+        when :less_than_or_equal
+          "#{field} > #{value}"
+        when :less_than
+          "#{field} >= #{value}"
+        when :equal
+          "#{field} != #{value}"
+        else
+          raise UnsupportedMappingError, "Unsupported condition operator: #{condition.operator}"
+        end
+      end
+
       private
 
       attr_reader :integration
