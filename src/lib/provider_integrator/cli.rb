@@ -23,11 +23,11 @@ module ProviderIntegrator
 
       output.puts "Parsing specification: #{options.fetch(:spec)}"
       output.flush
-      path = ProviderIntegrator.generate(
+      paths = ProviderIntegrator.generate(
         options.fetch(:spec),
         output_dir: options.fetch(:output_dir)
       )
-      output.puts "Generated: #{path}"
+      paths.each { |path| output.puts "Generated: #{path}" }
       0
     rescue OptionParser::ParseError, KeyError, ArgumentError => exception
       error.puts "Error: #{exception.message}"

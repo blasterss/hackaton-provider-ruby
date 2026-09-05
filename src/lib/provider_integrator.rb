@@ -17,6 +17,12 @@ module ProviderIntegrator
 
   def self.generate(spec_path, output_dir: "output")
     integration = build(spec_path)
-    Generators::ServiceGenerator.new.call(integration, output_dir: output_dir)
+    [
+      Generators::ServiceGenerator,
+      Generators::DocumentationGenerator,
+      Generators::FixtureGenerator
+    ].map do |generator|
+      generator.new.call(integration, output_dir: output_dir)
+    end
   end
 end
