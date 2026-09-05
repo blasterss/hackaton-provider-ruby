@@ -60,6 +60,22 @@ module ProviderIntegrator
         end
       end
 
+      def callback_action_expression(mapping)
+        operation_id = payload_expression(mapping.operation_id_path)
+
+        case mapping.action
+        when :approve
+          "approve_operation(#{operation_id})"
+        when :reject
+          arguments = [operation_id, payload_expression(mapping.error_code_path)].compact
+          "reject_operation(#{arguments.join(", ")})"
+        when :ignore
+          "success"
+        else
+          raise UnsupportedMappingError, "Unsupported callback action: #{mapping.action}"
+        end
+      end
+
       private
 
       attr_reader :integration
@@ -112,6 +128,18 @@ module ProviderIntegrator
         return "response.body.fetch(#{segments.first.dump})" if segments.one?
 
         "response.body.dig(#{segments.map(&:dump).join(", ")})"
+      end
+
+      def payload_expression(path)
+        return unless path
+
+        root, *segments = path.split(".")
+        if root != "payload" || segments.empty?
+          raise UnsupportedMappingError, "Unsupported callback payload path: #{path}"
+        end
+        return "payload.fetch(#{segments.first.dump})" if segments.one?
+
+        "payload.dig(#{segments.map(&:dump).join(", ")})"
       end
 
       def direct_attribute_expression(path)

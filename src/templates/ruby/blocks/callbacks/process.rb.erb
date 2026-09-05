@@ -1,0 +1,10 @@
+    def process_callback(payload)
+      case payload.fetch("event")
+<% integration.webhook.event_mappings.each do |mapping| -%>
+      when <%= mapping.event.dump %>
+        <%= service_view.callback_action_expression(mapping) %>
+<% end -%>
+      else
+        failure(:unprocessable_entity, "unknown_event")
+      end
+    end

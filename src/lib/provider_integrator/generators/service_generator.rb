@@ -9,9 +9,7 @@ module ProviderIntegrator
       TEMPLATE = "ruby/service.rb.erb"
       BLOCKS = {
         constants: [],
-        public_methods: [
-          "ruby/blocks/callbacks/base.rb.erb"
-        ],
+        public_methods: [],
         private_methods: ["ruby/blocks/authentication/base.rb.erb"]
       }.freeze
 
@@ -35,6 +33,7 @@ module ProviderIntegrator
       attr_reader :renderer
 
       def blocks_for(integration)
+        callback_blocks = callback_blocks_for(integration)
         condition_blocks = condition_blocks_for(integration)
         error_blocks = error_blocks_for(integration)
         request_blocks = request_blocks_for(integration)
@@ -44,8 +43,24 @@ module ProviderIntegrator
           [
             group,
             templates + error_blocks.fetch(group) + condition_blocks.fetch(group) +
-              request_blocks.fetch(group) + status_blocks.fetch(group)
+              request_blocks.fetch(group) + callback_blocks.fetch(group) + status_blocks.fetch(group)
           ]
+        end
+      end
+
+      def callback_blocks_for(integration)
+        if integration.webhook&.event_mappings&.any?
+          {
+            constants: [],
+            public_methods: ["ruby/blocks/callbacks/process.rb.erb"],
+            private_methods: []
+          }
+        else
+          {
+            constants: [],
+            public_methods: ["ruby/blocks/callbacks/base.rb.erb"],
+            private_methods: []
+          }
         end
       end
 
