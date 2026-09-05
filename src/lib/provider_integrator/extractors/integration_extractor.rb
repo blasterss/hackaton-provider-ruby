@@ -10,6 +10,8 @@ module ProviderIntegrator
           *Operations::Extractor.new(document).call
         ].compact
         webhook = Webhook::Extractor.new(document).call
+        status_mappings = StatusMappingExtractor.new(document, operations: operations).call
+        fixtures = FixtureExtractor.new(document, operations: operations, webhook: webhook).call
 
         Model::Integration.new(
           provider: ProviderExtractor.new(document).call,
@@ -18,8 +20,15 @@ module ProviderIntegrator
           webhook: webhook,
           conditions: ConditionExtractor.new(document, operations: operations).call,
           error_mappings: ErrorMappingExtractor.new(document, operations: operations).call,
-          status_mappings: StatusMappingExtractor.new(document, operations: operations).call,
-          fixtures: FixtureExtractor.new(document, operations: operations, webhook: webhook).call
+          status_mappings: status_mappings,
+          fixtures: fixtures,
+          diagnostics: DiagnosticExtractor.new(
+            document,
+            operations: operations,
+            webhook: webhook,
+            status_mappings: status_mappings,
+            fixtures: fixtures
+          ).call
         )
       end
     end
