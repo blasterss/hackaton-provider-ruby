@@ -14,7 +14,7 @@ module ProviderIntegrator
         end
 
         def call
-          [*path_item.parameters, *operation.parameters].map do |parameter|
+          effective_parameters(path_item, operation).map do |parameter|
             Model::RequestParameter.new(
               name: parameter.name,
               location: parameter.public_send(:in).to_sym,

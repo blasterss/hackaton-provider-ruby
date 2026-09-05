@@ -14,7 +14,7 @@ module ProviderIntegrator
         end
 
         def call
-          [*path_item.parameters, *operation.parameters].map do |parameter|
+          effective_parameters(path_item, operation).map do |parameter|
             build_parameter(parameter)
           end
         end
