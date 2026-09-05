@@ -1,0 +1,6 @@
+    def error_mapping(http_status, provider_code = nil)
+      status = http_status.to_i
+      ERROR_MAP.fetch([status, provider_code]) do
+        ERROR_MAP.fetch([status, nil], nil)
+      end
+    end

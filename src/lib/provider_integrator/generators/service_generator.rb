@@ -36,11 +36,31 @@ module ProviderIntegrator
       attr_reader :renderer
 
       def blocks_for(integration)
+        error_blocks = error_blocks_for(integration)
         request_blocks = request_blocks_for(integration)
         status_blocks = status_blocks_for(integration)
 
         BLOCKS.to_h do |group, templates|
-          [group, templates + request_blocks.fetch(group) + status_blocks.fetch(group)]
+          [
+            group,
+            templates + error_blocks.fetch(group) + request_blocks.fetch(group) + status_blocks.fetch(group)
+          ]
+        end
+      end
+
+      def error_blocks_for(integration)
+        if integration.error_mappings.any?
+          {
+            constants: ["ruby/blocks/errors/constants.rb.erb"],
+            public_methods: [],
+            private_methods: ["ruby/blocks/errors/map.rb.erb"]
+          }
+        else
+          {
+            constants: [],
+            public_methods: [],
+            private_methods: []
+          }
         end
       end
 

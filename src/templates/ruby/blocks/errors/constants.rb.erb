@@ -1,0 +1,9 @@
+    ERROR_MAP = {
+<% integration.error_mappings.each_with_index do |mapping, index| -%>
+      [<%= mapping.http_status %>, <%= mapping.provider_code&.dump || "nil" %>] => {
+        internal_code: <%= mapping.internal_code.dump %>,
+        action: :<%= mapping.action %>,
+        retryable: <%= mapping.retryable %>
+      }<%= "," unless index == integration.error_mappings.length - 1 %>
+<% end -%>
+    }.freeze
