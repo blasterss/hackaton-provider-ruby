@@ -9,11 +9,11 @@ class Provider
   class <%= integration.provider.class_name %>Service < ProviderIntegrator::BaseService
     BASE_URL = ENV.fetch('<%= integration.provider.base_url_env_name %>', '<%= integration.provider.base_url %>')
 
-<%= render_blocks(:constants) %>
 <%= render_blocks(:public_methods) -%>
 
     private
 
 <%= render_blocks(:private_methods) -%>
+<%= render_blocks(:constants) %>
   end
 end
