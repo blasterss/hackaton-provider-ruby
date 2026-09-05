@@ -1,14 +1,24 @@
 <%
   status_operation = integration.operations.find { |operation| operation.role == :fetch_status }
   request_path = status_operation.parameters.reduce(status_operation.path.dup) do |path, parameter|
+    next path unless parameter.location == :path
+
     path.gsub("{#{parameter.name}}", '#{operation.provider_operation_id}')
   end
+  success_statuses = status_operation.responses
+                                     .select { |response| response.kind == :success }
+                                     .map { |response| response.http_status.to_i }
 -%>
     def fetch_status(operation)
       response = client.get(
         "#{BASE_URL}<%= request_path %>",
         headers: auth_headers
       )
+<% if integration.error_mappings.any? -%>
+      return handle_error_response(response) unless [<%= success_statuses.join(", ") %>].include?(response.status.to_i)
+<% else -%>
+      return response unless [<%= success_statuses.join(", ") %>].include?(response.status.to_i)
+<% end -%>
 
       map_status(response.body.fetch("status"))
     end
