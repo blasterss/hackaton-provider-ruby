@@ -76,6 +76,23 @@ module ProviderIntegrator
         end
       end
 
+      def callback_signature_supported?
+        signature = integration.webhook&.signature
+        signature&.algorithm == :hmac_sha256 && %i[hex base64].include?(signature.encoding)
+      end
+
+      def callback_signature_digest
+        case integration.webhook.signature.encoding
+        when :hex
+          'digest.unpack1("H*")'
+        when :base64
+          '[digest].pack("m0")'
+        else
+          raise UnsupportedMappingError,
+                "Unsupported signature encoding: #{integration.webhook.signature.encoding}"
+        end
+      end
+
       private
 
       attr_reader :integration

@@ -49,11 +49,12 @@ module ProviderIntegrator
       end
 
       def callback_blocks_for(integration)
-        if integration.webhook&.event_mappings&.any?
+        webhook = integration.webhook
+        if callback_supported?(integration)
           {
             constants: [],
             public_methods: ["ruby/blocks/callbacks/process.rb.erb"],
-            private_methods: []
+            private_methods: callback_private_blocks(webhook)
           }
         else
           {
@@ -62,6 +63,19 @@ module ProviderIntegrator
             private_methods: []
           }
         end
+      end
+
+      def callback_supported?(integration)
+        webhook = integration.webhook
+        return false unless webhook&.event_mappings&.any?
+
+        webhook.signature.nil? || ServiceView.new(integration).callback_signature_supported?
+      end
+
+      def callback_private_blocks(webhook)
+        return [] unless webhook.signature
+
+        ["ruby/blocks/callbacks/signature.rb.erb"]
       end
 
       def condition_blocks_for(integration)

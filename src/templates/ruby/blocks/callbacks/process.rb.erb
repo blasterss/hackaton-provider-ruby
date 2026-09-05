@@ -1,4 +1,8 @@
-    def process_callback(payload)
+    def process_callback(payload<% if service_view.callback_signature_supported? %>, raw_body:, headers:<% end %>)
+<% if service_view.callback_signature_supported? -%>
+      verify_callback_signature!(raw_body, headers)
+
+<% end -%>
       case payload.fetch("event")
 <% integration.webhook.event_mappings.each do |mapping| -%>
       when <%= mapping.event.dump %>

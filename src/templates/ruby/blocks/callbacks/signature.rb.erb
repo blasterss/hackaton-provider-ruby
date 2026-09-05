@@ -1,0 +1,15 @@
+<% signature = integration.webhook.signature -%>
+    def verify_callback_signature!(raw_body, headers)
+      digest = OpenSSL::HMAC.digest(
+        "SHA256",
+        credentials.fetch(:<%= signature.secret_key %>),
+        raw_body
+      )
+      expected = <%= service_view.callback_signature_digest %>
+      actual = headers.fetch(<%= signature.header.dump %>)
+
+      return true if expected.bytesize == actual.bytesize &&
+                     OpenSSL.fixed_length_secure_compare(expected, actual)
+
+      raise SecurityError, "Invalid webhook signature"
+    end

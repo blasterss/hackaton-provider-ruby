@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 require "provider_integrator"
+<% if service_view.callback_signature_supported? -%>
+require "openssl"
+<% end -%>
 
 class Provider
   class <%= integration.provider.class_name %>Service < ProviderIntegrator::BaseService
