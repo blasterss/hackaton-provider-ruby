@@ -44,12 +44,9 @@ CLI → OpenAPI Parser → Provider/Auth Extractors → Integration Model
 ```
 
 валидирует OpenAPI средствами `openapi3_parser`, вычисляет данные провайдера из
-`info.title`, извлекает API key или bearer authentication и создаёт
-`output/novapay_service.rb`. `slug` является вычисленным полем `Provider` и не
-передаётся через CLI.
-
-Сгенерированный сервис пока является каркасом: `create_request`, `fetch_status`,
-`process_callback` и `check_conditions` завершаются `NotImplementedError`.
+`info.title`, извлекает API key или bearer authentication, status endpoint и
+маппинг известных статусов, после чего создаёт `output/novapay_service.rb`.
+`slug` является вычисленным полем `Provider` и не передаётся через CLI.
 
 
 ## Слои

@@ -1,0 +1,5 @@
+    STATUS_MAP = {
+<% integration.status_mappings.each_with_index do |mapping, index| -%>
+      <%= mapping.provider_status.dump %> => <%= mapping.internal_status.dump %><%= "," unless index == integration.status_mappings.length - 1 %>
+<% end -%>
+    }.freeze

@@ -1,0 +1,14 @@
+<%
+  status_operation = integration.operations.find { |operation| operation.role == :fetch_status }
+  request_path = status_operation.parameters.reduce(status_operation.path.dup) do |path, parameter|
+    path.gsub("{#{parameter.name}}", '#{operation.provider_operation_id}')
+  end
+-%>
+    def fetch_status(operation)
+      response = client.get(
+        "#{BASE_URL}<%= request_path %>",
+        headers: auth_headers
+      )
+
+      map_status(response.body.fetch("status"))
+    end
