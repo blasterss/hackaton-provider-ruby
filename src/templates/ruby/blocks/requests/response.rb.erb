@@ -1,9 +1,5 @@
 <%
   create_operation = service_view.operation(:create_request)
-  success_mappings = create_operation.responses
-                                     .select { |response| response.kind == :success }
-                                     .flat_map(&:field_mappings)
-                                     .uniq { |mapping| mapping.target_path }
   success_statuses = create_operation.responses
                                      .select { |response| response.kind == :success }
                                      .map { |response| response.http_status.to_i }
@@ -15,10 +11,7 @@
       case response.status.to_i
 <% if success_statuses.any? -%>
       when <%= success_statuses.join(", ") %>
-<% success_mappings.each do |mapping| -%>
-        <%= service_view.response_assignment(mapping) %>
-<% end -%>
-        operation
+        apply_create_response_mappings(operation, response)
 <% end -%>
 <% if duplicate_statuses.any? -%>
       when <%= duplicate_statuses.join(", ") %>

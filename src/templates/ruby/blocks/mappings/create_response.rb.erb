@@ -1,0 +1,13 @@
+<%
+  create_operation = service_view.operation(:create_request)
+  success_mappings = create_operation.responses
+                                     .select { |response| response.kind == :success }
+                                     .flat_map(&:field_mappings)
+                                     .uniq { |mapping| mapping.target_path }
+-%>
+    def apply_create_response_mappings(operation, response)
+<% success_mappings.each do |mapping| -%>
+      <%= service_view.response_assignment(mapping) %>
+<% end -%>
+      operation
+    end

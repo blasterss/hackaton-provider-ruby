@@ -36,6 +36,7 @@ module ProviderIntegrator
         callback_blocks = callback_blocks_for(integration)
         condition_blocks = condition_blocks_for(integration)
         error_blocks = error_blocks_for(integration)
+        mapping_blocks = mapping_blocks_for(integration)
         request_blocks = request_blocks_for(integration)
         status_blocks = status_blocks_for(integration)
 
@@ -43,9 +44,21 @@ module ProviderIntegrator
           [
             group,
             templates + error_blocks.fetch(group) + condition_blocks.fetch(group) +
-              request_blocks.fetch(group) + callback_blocks.fetch(group) + status_blocks.fetch(group)
+              request_blocks.fetch(group) + mapping_blocks.fetch(group) +
+              callback_blocks.fetch(group) + status_blocks.fetch(group)
           ]
         end
+      end
+
+      def mapping_blocks_for(integration)
+        operation = integration.operations.find { |candidate| candidate.role == :create_request }
+        mappings = operation&.responses.to_a.flat_map(&:field_mappings)
+
+        {
+          constants: [],
+          public_methods: [],
+          private_methods: mappings&.any? ? ["ruby/blocks/mappings/create_response.rb.erb"] : []
+        }
       end
 
       def callback_blocks_for(integration)
