@@ -6,9 +6,12 @@ module ProviderIntegrator
       # Извлекает правило проверки подписи webhook из header-параметра.
       class SignatureExtractor < Base
         SECRET_KEY = :callback_secret
-        ENCODING = :hex
         ALGORITHMS = {
           /hmac[-_\s]?sha[-_\s]?256/i => :hmac_sha256
+        }.freeze
+        ENCODINGS = {
+          /\bhex(?:adecimal)?\b|шестнадцатерич/iu => :hex,
+          /\bbase[-_\s]?64\b/i => :base64
         }.freeze
 
         def initialize(document, operation:)
@@ -25,7 +28,7 @@ module ProviderIntegrator
             algorithm: algorithm,
             header: header.name,
             secret_key: SECRET_KEY,
-            encoding: ENCODING
+            encoding: signature_encoding(header)
           )
         end
 
@@ -41,8 +44,15 @@ module ProviderIntegrator
         end
 
         def signature_algorithm(header)
-          text = [operation.description, header&.description].compact.join(" ")
-          ALGORITHMS.find { |pattern, _algorithm| text.match?(pattern) }&.last
+          ALGORITHMS.find { |pattern, _algorithm| signature_description(header).match?(pattern) }&.last
+        end
+
+        def signature_encoding(header)
+          ENCODINGS.find { |pattern, _encoding| signature_description(header).match?(pattern) }&.last
+        end
+
+        def signature_description(header)
+          [operation.description, header&.description].compact.join(" ")
         end
       end
     end

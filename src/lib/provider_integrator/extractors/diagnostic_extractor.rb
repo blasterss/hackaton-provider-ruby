@@ -66,11 +66,18 @@ module ProviderIntegrator
         return [] unless webhook
 
         diagnostics = []
-        unless webhook.signature
+        if webhook.signature.nil?
           diagnostics << diagnostic(
             :warning,
             :missing_webhook_signature,
             "Webhook signature was not detected",
+            webhook.source_pointer
+          )
+        elsif webhook.signature.encoding.nil?
+          diagnostics << diagnostic(
+            :warning,
+            :missing_webhook_signature_encoding,
+            "Webhook signature encoding was not detected",
             webhook.source_pointer
           )
         end
