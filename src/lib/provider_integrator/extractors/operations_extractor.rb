@@ -71,10 +71,6 @@ module ProviderIntegrator
           )
         end
       end
-
-      def escape_pointer(value)
-        value.gsub("~", "~0").gsub("/", "~1")
-      end
     end
   end
 end

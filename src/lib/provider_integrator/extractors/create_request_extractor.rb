@@ -113,10 +113,6 @@ module ProviderIntegrator
 
         :error
       end
-
-      def escape_pointer(value)
-        value.gsub("~", "~0").gsub("/", "~1")
-      end
     end
   end
 end

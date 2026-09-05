@@ -16,12 +16,6 @@ module ProviderIntegrator
             source_pointer: "/paths/#{escape_pointer(endpoint.path)}/post"
           )
         end
-
-        private
-
-        def escape_pointer(value)
-          value.gsub("~", "~0").gsub("/", "~1")
-        end
       end
     end
   end
