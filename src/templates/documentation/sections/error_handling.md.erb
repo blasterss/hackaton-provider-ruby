@@ -1,0 +1,11 @@
+## Обработка ошибок
+
+<% if integration.error_mappings.any? -%>
+| HTTP | Provider code | Internal code | Действие | Retryable |
+|------|---------------|---------------|----------|-----------|
+<% integration.error_mappings.each do |mapping| -%>
+| <%= mapping.http_status %> | <%= mapping.provider_code || "—" %> | <%= mapping.internal_code %> | <%= mapping.action %> | <%= mapping.retryable ? "да" : "нет" %> |
+<% end -%>
+<% else -%>
+Правила обработки ошибок не определены в спецификации.
+<% end -%>

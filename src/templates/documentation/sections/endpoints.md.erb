@@ -1,0 +1,10 @@
+## Методы
+
+| Operation ID | Метод | Endpoint | Назначение | Idempotency |
+|--------------|-------|----------|------------|-------------|
+<% integration.operations.each do |operation| -%>
+| <%= documentation_view.operation_name(operation) %> | <%= operation.http_method.upcase %> | `<%= operation.path %>` | <%= documentation_view.operation_purpose(operation) %> | <%= documentation_view.idempotency_parameter(operation) %> |
+<% end -%>
+<% if integration.webhook -%>
+| process_callback | POST | `<%= integration.webhook.path %>` | Callback | <%= integration.webhook.signature&.header || "—" %> |
+<% end -%>

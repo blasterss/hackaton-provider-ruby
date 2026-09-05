@@ -1,0 +1,9 @@
+## Webhook signature
+
+<% if integration.webhook&.signature -%>
+`<%= documentation_view.signature_algorithm %>(body, <%= integration.webhook.signature.secret_key %>) → <%= documentation_view.signature_encoding %> → <%= integration.webhook.signature.header %>`
+<% elsif integration.webhook -%>
+Проверка подписи webhook не определена в спецификации.
+<% else -%>
+Webhook не определён в спецификации.
+<% end -%>

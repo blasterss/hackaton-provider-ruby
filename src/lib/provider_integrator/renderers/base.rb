@@ -41,6 +41,8 @@ module ProviderIntegrator
           end.join("\n")
         end
 
+        alias render_section render_blocks
+
         def binding
           local_binding = Kernel.binding
           @locals.each { |name, value| local_binding.local_variable_set(name, value) }

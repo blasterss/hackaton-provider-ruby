@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "fileutils"
-
 module ProviderIntegrator
   module Generators
     # Собирает минимальный Ruby service из Integration Model.

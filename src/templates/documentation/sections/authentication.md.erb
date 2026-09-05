@@ -1,0 +1,9 @@
+## Авторизация
+
+<% if integration.authentication -%>
+- Тип: <%= documentation_view.authentication_type %>
+- <%= integration.authentication.location == :header ? "Header" : "Query parameter" %>: `<%= integration.authentication.parameter_name %>: <%= documentation_view.authentication_value %>`
+- Хранение: `providers.credentials` (encrypted)
+<% else -%>
+Авторизация не определена в спецификации.
+<% end -%>

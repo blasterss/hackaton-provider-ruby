@@ -3,3 +3,5 @@
 require_relative "generators/base"
 require_relative "generators/service_view"
 require_relative "generators/service_generator"
+require_relative "generators/documentation_view"
+require_relative "generators/documentation_generator"

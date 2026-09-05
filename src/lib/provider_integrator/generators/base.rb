@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "fileutils"
+
 module ProviderIntegrator
   module Generators
     # Общие операции записи сгенерированных артефактов.

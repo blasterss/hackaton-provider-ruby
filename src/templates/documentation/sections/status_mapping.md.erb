@@ -1,0 +1,11 @@
+## Маппинг статусов
+
+<% if integration.status_mappings.any? -%>
+| Provider | Space Payments |
+|----------|----------------|
+<% integration.status_mappings.each do |mapping| -%>
+| <%= mapping.provider_status %> | <%= mapping.internal_status %> |
+<% end -%>
+<% else -%>
+Маппинг статусов не определён в спецификации.
+<% end -%>
