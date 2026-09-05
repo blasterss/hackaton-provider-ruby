@@ -5,7 +5,10 @@ module ProviderIntegrator
     # Собирает нормализованную Integration Model из результатов extractors.
     class IntegrationExtractor < Base
       def call
-        operations = OperationsExtractor.new(document).call
+        operations = [
+          CreateRequestExtractor.new(document).call,
+          *OperationsExtractor.new(document).call
+        ].compact
 
         Model::Integration.new(
           provider: ProviderExtractor.new(document).call,

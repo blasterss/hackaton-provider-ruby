@@ -46,6 +46,7 @@ flowchart LR
 - [ ] Реализовать проверку инвариантов модели.
 - [x] Подключить `openapi3_parser` через собственный parser adapter.
 - [x] Извлечь provider metadata и authentication в промежуточную модель.
+- [x] Извлечь базовую `create_request` operation без генерации Ruby-блока.
 - [x] Извлечь `fetch_status` operation и enum статусов.
 - [ ] Извлечь данные NovaPay в промежуточную модель.
 - [x] Реализовать базовый ERB renderer и подключение partial-блоков.
@@ -54,6 +55,7 @@ flowchart LR
 - [x] Собрать минимальный generator Ruby-сервиса.
 - [ ] Собрать генераторы сервиса, документации и фикстур.
 - [x] Подключить минимальный CLI с `--spec`, `--output` и кодами завершения.
+- [x] Добавить просмотр промежуточной модели через `build` и `--dump-model`.
 - [ ] Добавить проверку полноты модели и подробные diagnostics в CLI.
 - [ ] Проверить полный сценарий на `config/provider_api.yaml`.
 
