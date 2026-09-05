@@ -4,6 +4,9 @@ module ProviderIntegrator
   module Generators
     # Подготавливает Integration Model к отрисовке Ruby service templates.
     class ServiceView
+      # Временный fallback для спецификаций без явно указанного encoding подписи.
+      DEFAULT_CALLBACK_SIGNATURE_ENCODING = :hex
+
       class UnsupportedMappingError < StandardError
       end
 
@@ -78,24 +81,28 @@ module ProviderIntegrator
 
       def callback_signature_supported?
         signature = integration.webhook&.signature
-        signature&.algorithm == :hmac_sha256 && %i[hex base64].include?(signature.encoding)
+        signature&.algorithm == :hmac_sha256 && %i[hex base64].include?(callback_signature_encoding)
       end
 
       def callback_signature_digest
-        case integration.webhook.signature.encoding
+        case callback_signature_encoding
         when :hex
           'digest.unpack1("H*")'
         when :base64
           '[digest].pack("m0")'
         else
           raise UnsupportedMappingError,
-                "Unsupported signature encoding: #{integration.webhook.signature.encoding}"
+                "Unsupported signature encoding: #{callback_signature_encoding}"
         end
       end
 
       private
 
       attr_reader :integration
+
+      def callback_signature_encoding
+        integration.webhook&.signature&.encoding || DEFAULT_CALLBACK_SIGNATURE_ENCODING
+      end
 
       def mapping_tree(mappings)
         mappings.each_with_object({}) do |mapping, root|
