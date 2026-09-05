@@ -37,7 +37,7 @@ module ProviderIntegrator
         operation = operations.find { |candidate| candidate.role == :fetch_status }
         return [] unless operation
 
-        openapi_operation = document.paths[operation.path]&.get
+        openapi_operation = document.paths[operation.path]&.public_send(operation.http_method)
         response = openapi_operation&.responses&.find do |status, _candidate|
           status.start_with?("2")
         end&.last

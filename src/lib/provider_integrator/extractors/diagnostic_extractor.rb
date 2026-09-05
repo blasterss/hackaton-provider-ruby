@@ -153,7 +153,7 @@ module ProviderIntegrator
       end
 
       def provider_statuses(fetch_status)
-        openapi_operation = document.paths[fetch_status.path]&.get
+        openapi_operation = document.paths[fetch_status.path]&.public_send(fetch_status.http_method)
         response = openapi_operation&.responses&.find { |status, _candidate| status.start_with?("2") }&.last
         schema = response&.content&.values&.filter_map(&:schema)&.first
         schema&.properties&.[]("status")&.enum&.to_a || []
