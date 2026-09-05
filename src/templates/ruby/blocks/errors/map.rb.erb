@@ -4,3 +4,20 @@
         ERROR_MAP.fetch([status, nil], nil)
       end
     end
+
+    def handle_error_response(response)
+      mapping = error_mapping(response.status, provider_error_code(response))
+      return failure(:reject, "provider.unknown_error") unless mapping
+
+      failure(mapping.fetch(:action), "provider.#{mapping.fetch(:internal_code)}")
+    end
+
+    def provider_error_code(response)
+      body = response.body
+      return unless body.is_a?(Hash)
+
+      error = body["error"] || body[:error]
+      return error["code"] || error[:code] if error.is_a?(Hash)
+
+      body["code"] || body[:code]
+    end
