@@ -15,6 +15,7 @@ module ProviderIntegrator
           authentication: AuthenticationExtractor.new(document).call,
           operations: operations,
           conditions: ConditionExtractor.new(document, operations: operations).call,
+          error_mappings: ErrorMappingExtractor.new(document, operations: operations).call,
           status_mappings: StatusMappingExtractor.new(document, operations: operations).call
         )
       end
