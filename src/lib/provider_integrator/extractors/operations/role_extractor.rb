@@ -11,9 +11,10 @@ module ProviderIntegrator
           fetch_status: /status/i
         }.freeze
 
-        def initialize(document, path:, http_method:, operation:)
+        def initialize(document, path:, path_item:, http_method:, operation:)
           super(document)
           @path = path
+          @path_item = path_item
           @http_method = http_method
           @operation = operation
         end
@@ -24,7 +25,7 @@ module ProviderIntegrator
 
         private
 
-        attr_reader :path, :http_method, :operation
+        attr_reader :path, :path_item, :http_method, :operation
 
         def metadata_role
           text = [operation.operation_id, path].compact.join(" ")
@@ -47,7 +48,9 @@ module ProviderIntegrator
         end
 
         def path_parameters?
-          operation.parameters.to_a.any? { |parameter| parameter.public_send(:in) == "path" }
+          effective_parameters(path_item, operation).any? do |parameter|
+            parameter.public_send(:in) == "path"
+          end
         end
       end
     end

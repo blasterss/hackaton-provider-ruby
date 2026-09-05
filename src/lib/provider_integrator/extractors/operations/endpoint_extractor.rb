@@ -14,7 +14,13 @@ module ProviderIntegrator
               operation = path_item.public_send(http_method)
               next unless operation
 
-              role = RoleExtractor.new(document, path: path, http_method: http_method, operation: operation).call
+              role = RoleExtractor.new(
+                document,
+                path: path,
+                path_item: path_item,
+                http_method: http_method,
+                operation: operation
+              ).call
               build_endpoint(role, path, path_item, http_method, operation) if role
             end
           end
