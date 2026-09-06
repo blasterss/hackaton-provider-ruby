@@ -3,7 +3,8 @@
 Генератор строится как конвейер с промежуточной моделью. 
 
 - [План действий генератора](../plans/ACTION_PLAN.md);
-- [План разработки](../plans/DEVELOPMENT_PLAN.md).
+- [План разработки](../plans/DEVELOPMENT_PLAN.md);
+- [Границы и ограничения MVP](../LIMITATIONS.md).
 
 ```text
 provider_api.yaml
