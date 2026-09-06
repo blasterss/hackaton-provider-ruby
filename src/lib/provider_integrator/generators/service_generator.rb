@@ -22,8 +22,8 @@ module ProviderIntegrator
           locals: { integration: integration, service_view: service_view },
           blocks: blocks_for(integration)
         )
-
-        write(output_dir, "#{integration.provider.slug}_service.rb", content)
+        provider_slug = integration.provider.slug
+        write(output_dir, provider_slug, "#{provider_slug}_service.rb", content)
       end
 
       private

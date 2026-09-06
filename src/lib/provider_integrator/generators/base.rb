@@ -8,9 +8,10 @@ module ProviderIntegrator
     class Base
       private
 
-      def write(output_dir, filename, content)
-        FileUtils.mkdir_p(output_dir)
-        path = File.join(output_dir, filename)
+      def write(output_dir, provider_slug, filename, content)
+        provider_dir = File.join(output_dir, provider_slug)
+        FileUtils.mkdir_p(provider_dir)
+        path = File.join(provider_dir, filename)
         File.write(path, content)
         path
       end

@@ -14,7 +14,7 @@ module ProviderIntegrator
 
       def call(integration, output_dir: "output")
         content = renderer.render(TEMPLATE, locals: { integration: integration })
-        write(output_dir, "fixtures.json", content)
+        write(output_dir, integration.provider.slug, "fixtures.json", content)
       end
 
       private

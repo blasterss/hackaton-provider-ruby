@@ -28,7 +28,7 @@ module ProviderIntegrator
           blocks: SECTIONS
         )
 
-        write(output_dir, "INTEGRATION.md", content)
+        write(output_dir, integration.provider.slug, "INTEGRATION.md", content)
       end
 
       private
