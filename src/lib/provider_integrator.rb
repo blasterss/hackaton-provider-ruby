@@ -24,6 +24,17 @@ module ProviderIntegrator
       raise Parsers::Error, "OpenAPI parsing failed: #{exception.message}"
     end
 
+    def generate(spec_path, output_dir: "output")
+      integration = build(spec_path)
+      [
+        Generators::ServiceGenerator,
+        Generators::DocumentationGenerator,
+        Generators::FixtureGenerator
+      ].map do |generator|
+        generator.new.call(integration, output_dir: output_dir)
+      end
+    end
+
     private
 
     def format_errors(error_collection)
