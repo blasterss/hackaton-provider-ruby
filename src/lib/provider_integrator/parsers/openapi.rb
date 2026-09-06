@@ -26,8 +26,12 @@ module ProviderIntegrator
         @path = File.expand_path(path)
       end
 
-      def parse
-        document = Openapi3Parser.load_file(path)
+      def call
+        raw_document = OpenapiLoader.new(path).call
+        normalization = OpenapiNormalizer.new(raw_document).call
+
+        document = Openapi3Parser.load(normalization.document)
+
         raise InvalidSpecificationError, document.errors unless document.valid?
 
         document

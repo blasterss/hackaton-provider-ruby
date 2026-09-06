@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require_relative "provider_integrator/parsers/base"
+require_relative "provider_integrator/parsers/openapi_loader"
+require_relative "provider_integrator/parsers/openapi_normalizer"
 require_relative "provider_integrator/parsers/openapi"
 require_relative "provider_integrator/base_service"
 require_relative "provider_integrator/model"
@@ -12,8 +14,7 @@ require_relative "provider_integrator/cli"
 module ProviderIntegrator
   class << self
     def build(spec_path)
-      document = Openapi3Parser.load_file(spec_path)
-
+      document = Parsers::Openapi.new(spec_path).call
       unless document.valid?
         raise Parsers::Error, format_errors(document.errors)
       end
