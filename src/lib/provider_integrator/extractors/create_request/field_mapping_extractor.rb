@@ -17,8 +17,13 @@ module ProviderIntegrator
           return [] unless schema
 
           required_fields = schema.required&.to_a || []
+          explicit_mappings = extension_hash(operation, "x-provider-integrator-request-mappings")
           schema.properties.flat_map do |name, property|
-            build_mappings(name, property, required_fields.include?(name))
+            if explicit_mappings.key?(name)
+              [explicit_mapping(name, explicit_mappings.fetch(name), required_fields.include?(name))]
+            else
+              build_mappings(name, property, required_fields.include?(name))
+            end
           end
         end
 
@@ -28,6 +33,10 @@ module ProviderIntegrator
 
         def json_schema
           operation.request_body.content["application/json"]&.schema
+        end
+
+        def explicit_mapping(name, target_path, required)
+          field_mapping(name, target_path.to_s, :identity, required: required)
         end
 
         def build_mappings(name, property, required)

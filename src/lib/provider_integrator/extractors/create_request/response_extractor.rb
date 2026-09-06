@@ -29,11 +29,21 @@ module ProviderIntegrator
           schema = response.content&.[]("application/json")&.schema
           return [] unless schema
 
-          mappings = []
+          mappings = explicit_mappings
           provider_id = %w[id payout_id transaction_id].find { |name| schema.properties&.keys&.include?(name) }
-          mappings << response_mapping(provider_id, "operation.provider_operation_id") if provider_id
+          unless mappings.any? { |mapping| mapping.target_path == "operation.provider_operation_id" }
+            mappings << response_mapping(provider_id, "operation.provider_operation_id") if provider_id
+          end
           mappings << response_mapping("status", "operation.status") if schema.properties&.keys&.include?("status")
-          mappings
+          mappings.uniq
+        end
+
+        def explicit_mappings
+          extension_hash(operation, "x-provider-integrator-response-mappings").filter_map do |source_path, target_path|
+            next unless target_path
+
+            response_mapping(source_path.to_s, target_path.to_s)
+          end
         end
 
         def response_mapping(source, target)
