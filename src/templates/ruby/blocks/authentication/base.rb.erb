@@ -1,6 +1,6 @@
     def auth_headers
 <% if integration.authentication&.location == :header -%>
-      { "<%= integration.authentication.parameter_name %>" => credentials.fetch(:<%= integration.authentication.credential_key %>) }
+      { "<%= integration.authentication.parameter_name %>" => <%= integration.authentication.type == :bearer ? '"Bearer " + ' : '' %>credentials.fetch(:<%= integration.authentication.credential_key %>) }
 <% else -%>
       {}
 <% end -%>
