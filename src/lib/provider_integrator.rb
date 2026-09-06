@@ -23,13 +23,16 @@ module ProviderIntegrator
     def generate(spec_path, output_dir: "output")
       integration = build(spec_path)
 
-      [
+      paths = [
         Generators::ServiceGenerator,
         Generators::DocumentationGenerator,
         Generators::FixtureGenerator
       ].map do |generator|
         generator.new.call(integration, output_dir: output_dir)
       end
+
+      yield integration if block_given?
+      paths
     end
   end
 end

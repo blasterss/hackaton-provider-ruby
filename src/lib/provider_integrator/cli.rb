@@ -25,12 +25,16 @@ module ProviderIntegrator
       output.puts "Parsing specification: #{options.fetch(:spec)}"
       output.flush
 
+      integration = nil
       paths = ProviderIntegrator.generate(
         options.fetch(:spec),
         output_dir: options.fetch(:output_dir)
-      )
+      ) do |built_integration|
+        integration = built_integration
+      end
 
       paths.each { |path| output.puts "Generated: #{path}" }
+      print_diagnostics(integration.diagnostics) if integration
 
       0
     rescue OptionParser::ParseError, KeyError, ArgumentError => exception
@@ -50,6 +54,15 @@ module ProviderIntegrator
     private
 
     attr_reader :arguments, :output, :error
+
+    def print_diagnostics(diagnostics)
+      return if diagnostics.empty?
+
+      output.puts "Diagnostics:"
+      diagnostics.each do |diagnostic|
+        output.puts "  [#{diagnostic.severity}] #{diagnostic.code}: #{diagnostic.message}"
+      end
+    end
 
     def dump_model(spec_path)
       output.puts "Parsing specification: #{spec_path}"
