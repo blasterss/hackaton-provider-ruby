@@ -1,0 +1,190 @@
+{
+  "create_request": {
+    "request_Checkout": {
+      "checkout_reference": "f00a8f74-b05d-4605-bd73-2a901bae5802",
+      "amount": 10.1,
+      "currency": "EUR",
+      "merchant_code": "MH4H92C7",
+      "description": "Purchase",
+      "valid_until": "2020-02-29T10:56:56+00:00",
+      "redirect_url": "https://sumup.com"
+    },
+    "request_Checkout3DS": {
+      "checkout_reference": "f00a8f74-b05d-4605-bd73-2a901bae5802",
+      "amount": 10.1,
+      "currency": "EUR",
+      "merchant_code": "MH4H92C7",
+      "description": "Purchase",
+      "return_url": "http://example.com/",
+      "customer_id": "831ff8d4cd5958ab5670",
+      "redirect_url": "https://mysite.com/completed_purchase"
+    },
+    "request_CheckoutAPM": {
+      "checkout_reference": "f00a8f74-b05d-4605-bd73-2a901bae5802",
+      "amount": 10.1,
+      "currency": "EUR",
+      "merchant_code": "MH4H92C7",
+      "redirect_url": "https://mysite.com/completed_purchase"
+    },
+    "request_HostedCheckout": {
+      "checkout_reference": "b50pr914-6k0e-3091-a592-890010285b3d",
+      "amount": 12,
+      "currency": "EUR",
+      "merchant_code": "MCXXXXXX",
+      "description": "A sample checkout",
+      "hosted_checkout": {
+        "enabled": true
+      }
+    },
+    "response_201_Checkout": {
+      "checkout_reference": "8ea25ec3-3293-40e9-a165-6d7f3b3073c5",
+      "amount": 10.1,
+      "currency": "EUR",
+      "merchant_code": "MH4H92C7",
+      "merchant_country": "DE",
+      "description": "My Checkout",
+      "return_url": "http://example.com",
+      "id": "88fcf8de-304d-4820-8f1c-ec880290eb92",
+      "status": "PENDING",
+      "date": "2020-02-29T10:56:56+00:00",
+      "valid_until": "2020-02-29T10:56:56+00:00",
+      "customer_id": "831ff8d4cd5958ab5670",
+      "mandate": {
+        "type": "recurrent",
+        "status": "active",
+        "merchant_code": "MH4H92C7"
+      },
+      "transactions": [
+        {
+          "id": "410fc44a-5956-44e1-b5cc-19c6f8d727a4",
+          "transaction_code": "TEENSK4W2K",
+          "amount": 10.1,
+          "currency": "EUR",
+          "timestamp": "2020-02-29T10:56:56.876Z",
+          "status": "SUCCESSFUL",
+          "payment_type": "ECOM",
+          "installments_count": 1,
+          "merchant_code": "MH4H92C7",
+          "vat_amount": 6,
+          "tip_amount": 3,
+          "entry_mode": "CUSTOMER_ENTRY",
+          "auth_code": "012345"
+        }
+      ]
+    },
+    "response_201_Checkout3DS": {
+      "checkout_reference": "8ea25ec3-3293-40e9-a165-6d7f3b3073c5",
+      "amount": 10.1,
+      "currency": "EUR",
+      "description": "My Checkout",
+      "return_url": "http://example.com",
+      "id": "88fcf8de-304d-4820-8f1c-ec880290eb92",
+      "status": "PENDING",
+      "date": "2020-02-29T10:56:56+00:00",
+      "valid_until": "2020-02-29T10:56:56+00:00",
+      "customer_id": "831ff8d4cd5958ab5670",
+      "redirect_url": "https://mysite.com/completed_purchase",
+      "transactions": [
+        {
+          "id": "410fc44a-5956-44e1-b5cc-19c6f8d727a4",
+          "transaction_code": "TEENSK4W2K",
+          "amount": 10.1,
+          "currency": "EUR",
+          "timestamp": "2020-02-29T10:56:56.876Z",
+          "status": "SUCCESSFUL",
+          "payment_type": "ECOM",
+          "installments_count": 1,
+          "merchant_code": "MH4H92C7",
+          "vat_amount": 6,
+          "tip_amount": 3,
+          "entry_mode": "CUSTOMER_ENTRY",
+          "auth_code": "012345"
+        }
+      ]
+    },
+    "response_201_CheckoutAPM": {
+      "checkout_reference": "8ea25ec3-3293-40e9-a165-6d7f3b3073c5",
+      "amount": 10.1,
+      "currency": "EUR",
+      "merchant_code": "MH4H92C7",
+      "description": "My Checkout",
+      "return_url": "http://example.com",
+      "id": "88fcf8de-304d-4820-8f1c-ec880290eb92",
+      "status": "PENDING",
+      "date": "2021-06-29T11:08:36.000+00:00",
+      "merchant_name": "My company",
+      "merchant_country": "DE",
+      "redirect_url": "https://sumup.com",
+      "purpose": "CHECKOUT",
+      "transactions": [
+        {
+          "id": "410fc44a-5956-44e1-b5cc-19c6f8d727a4",
+          "transaction_code": "TEENSK4W2K",
+          "amount": 10.1,
+          "currency": "EUR",
+          "timestamp": "2020-02-29T10:56:56.876Z",
+          "status": "SUCCESSFUL",
+          "payment_type": "ECOM",
+          "installments_count": 1,
+          "merchant_code": "MH4H92C7",
+          "vat_amount": 6,
+          "tip_amount": 3,
+          "entry_mode": "CUSTOMER_ENTRY",
+          "auth_code": "012345"
+        }
+      ]
+    },
+    "response_201_HostedCheckout": {
+      "checkout_reference": "b50pr914-6k0e-3091-a592-890010285b3d",
+      "amount": 12,
+      "currency": "EUR",
+      "merchant_code": "MCXXXXXX",
+      "merchant_country": "DE",
+      "merchant_name": "Sample Shop",
+      "description": "A sample checkout",
+      "id": "64553e20-3f0e-49e4-8af3-fd0eca86ce91",
+      "status": "PENDING",
+      "date": "2000-01-01T12:49:24.899+00:00",
+      "purpose": "CHECKOUT",
+      "hosted_checkout": {
+        "enabled": true
+      },
+      "hosted_checkout_url": "https://checkout.sumup.com/pay/8f9316a3-cda9-42a9-9771-54d534315676",
+      "transactions": []
+    },
+    "response_400": {
+      "message": "Validation error",
+      "error_code": "MISSING",
+      "param": "merchant_code"
+    },
+    "response_401": {
+      "detail": "Unauthorized.",
+      "status": 401,
+      "title": "Unauthorized",
+      "trace_id": "3c77294349d3b5647ea2d990f0d8f017",
+      "type": "https://developer.sumup.com/problem/unauthorized"
+    },
+    "response_403": {
+      "error_message": "checkout_payments_not_allowed",
+      "error_code": "FORBIDDEN",
+      "status_code": "403"
+    },
+    "response_409": {
+      "error_code": "DUPLICATED_CHECKOUT",
+      "message": "Checkout with this checkout reference and pay to email already exists"
+    }
+  },
+  "fetch_status": {},
+  "callbacks": [
+    {
+      "id": "evt_reader_123",
+      "type": "readers.created",
+      "created_at": "2023-05-09T14:52:58.714Z",
+      "object": {
+        "id": "rdr_3MSAFM23CK82VSTT4BN6RWSQ65",
+        "type": "reader",
+        "url": "https://api.sumup.com/v0.1/merchants/MC0DE/readers/rdr_3MSAFM23CK82VSTT4BN6RWSQ65"
+      }
+    }
+  ]
+}

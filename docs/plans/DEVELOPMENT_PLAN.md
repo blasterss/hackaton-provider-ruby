@@ -28,9 +28,8 @@ flowchart LR
     classDef next fill:#fef3c7,stroke:#d97706,color:#78350f
     classDef pending fill:#f3f4f6,stroke:#6b7280,color:#111827
 
-    class foundation,model,parser,extractors,renderer,blocks,generators done
-    class cli next
-    class release pending
+    class foundation,model,parser,extractors,renderer,blocks,generators,cli done
+    class release next
 ```
 
 ## Текущий этап
@@ -57,7 +56,8 @@ JSON-фикстуры из одной Integration Model. Следующий эт
 - [x] Собрать генераторы сервиса, документации и фикстур.
 - [x] Подключить минимальный CLI с `--spec`, `--output` и кодами завершения.
 - [x] Добавить просмотр промежуточной модели через `build` и `--dump-model`.
-- [ ] Добавить проверку полноты модели и подробные diagnostics в CLI.
+- [x] Добавить подробные diagnostics в CLI.
+- [ ] Добавить проверку полноты модели.
 - [x] Проверить полный сценарий на `config/provider_api.yaml`.
 
 ## Критерий готовности MVP

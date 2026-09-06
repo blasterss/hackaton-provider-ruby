@@ -1,0 +1,545 @@
+{
+  "create_request": {
+    "request": {
+      "items": [
+        {
+          "quantity": 20,
+          "price_id": "pri_01gsz91wy9k1yn7kx82aafwvea"
+        },
+        {
+          "quantity": 1,
+          "price_id": "pri_01gsz96z29d88jrmsf2ztbfgjg"
+        },
+        {
+          "quantity": 1,
+          "price_id": "pri_01gsz98e27ak2tyhexptwc58yk"
+        }
+      ],
+      "customer_id": "ctm_01h8441jn5pcwrfhwh78jqt8hk",
+      "address_id": "add_01h848pep46enq8y372x7maj0p",
+      "currency_code": "USD",
+      "collection_mode": "manual",
+      "billing_details": {
+        "enable_checkout": false,
+        "purchase_order_number": "PO-123",
+        "payment_terms": {
+          "interval": "day",
+          "frequency": 14
+        }
+      },
+      "billing_period": {
+        "starts_at": "2023-08-01T00:00:00Z",
+        "ends_at": "2024-07-31T23:59:00Z"
+      }
+    },
+    "response_201": {
+      "data": {
+        "id": "txn_01h8bm0f0gwa622zpcvw49hwc1",
+        "status": "ready",
+        "customer_id": "ctm_01h8441jn5pcwrfhwh78jqt8hk",
+        "address_id": "add_01h848pep46enq8y372x7maj0p",
+        "business_id": null,
+        "custom_data": null,
+        "origin": "api",
+        "collection_mode": "manual",
+        "subscription_id": null,
+        "invoice_id": null,
+        "invoice_number": null,
+        "billing_details": {
+          "enable_checkout": false,
+          "payment_terms": {
+            "interval": "day",
+            "frequency": 14
+          },
+          "purchase_order_number": "PO-123",
+          "additional_information": null
+        },
+        "billing_period": {
+          "starts_at": "2023-08-01T00:00:00Z",
+          "ends_at": "2024-07-31T23:59:00Z"
+        },
+        "currency_code": "USD",
+        "discount_id": null,
+        "created_at": "2023-08-21T08:40:00.766226206Z",
+        "updated_at": "2023-08-21T08:40:00.766226206Z",
+        "billed_at": null,
+        "items": [
+          {
+            "price": {
+              "id": "pri_01gsz91wy9k1yn7kx82aafwvea",
+              "description": "Annual (per seat)",
+              "name": "Annual (per seat)",
+              "product_id": "pro_01gsz4vmqbjk3x4vvtafffd540",
+              "billing_cycle": {
+                "interval": "year",
+                "frequency": 1
+              },
+              "trial_period": null,
+              "tax_mode": "account_setting",
+              "unit_price": {
+                "amount": "50000",
+                "currency_code": "USD"
+              },
+              "unit_price_overrides": [],
+              "quantity": {
+                "minimum": 1,
+                "maximum": 100
+              },
+              "status": "active",
+              "type": "standard",
+              "custom_data": null
+            },
+            "quantity": 20
+          },
+          {
+            "price": {
+              "id": "pri_01gsz96z29d88jrmsf2ztbfgjg",
+              "description": "Annual (recurring addon)",
+              "name": "Annual (recurring addon)",
+              "product_id": "pro_01gsz92krfzy3hcx5h5rtgnfwz",
+              "billing_cycle": {
+                "interval": "year",
+                "frequency": 1
+              },
+              "trial_period": null,
+              "tax_mode": "account_setting",
+              "unit_price": {
+                "amount": "300000",
+                "currency_code": "USD"
+              },
+              "unit_price_overrides": [],
+              "quantity": {
+                "minimum": 1,
+                "maximum": 1
+              },
+              "status": "active",
+              "type": "standard",
+              "custom_data": null
+            },
+            "quantity": 1
+          },
+          {
+            "price": {
+              "id": "pri_01gsz98e27ak2tyhexptwc58yk",
+              "description": "One-time charge",
+              "name": "One-time charge",
+              "product_id": "pro_01gsz97mq9pa4fkyy0wqenepkz",
+              "billing_cycle": null,
+              "trial_period": null,
+              "tax_mode": "account_setting",
+              "unit_price": {
+                "amount": "19900",
+                "currency_code": "USD"
+              },
+              "unit_price_overrides": [
+                {
+                  "country_codes": [
+                    "AU"
+                  ],
+                  "unit_price": {
+                    "amount": "40000",
+                    "currency_code": "AUD"
+                  }
+                }
+              ],
+              "quantity": {
+                "minimum": 1,
+                "maximum": 1
+              },
+              "status": "active",
+              "type": "standard",
+              "custom_data": null
+            },
+            "quantity": 1
+          }
+        ],
+        "details": {
+          "tax_rates_used": [
+            {
+              "tax_rate": "0.08875",
+              "totals": {
+                "subtotal": "1319900",
+                "discount": "0",
+                "tax": "117141",
+                "total": "1437041"
+              }
+            }
+          ],
+          "totals": {
+            "subtotal": "1319900",
+            "tax": "117141",
+            "discount": "0",
+            "total": "1437041",
+            "grand_total": "1437041",
+            "fee": null,
+            "credit": "0",
+            "credit_to_balance": "0",
+            "balance": "1437041",
+            "earnings": null,
+            "currency_code": "USD"
+          },
+          "adjusted_totals": {
+            "subtotal": "1319900",
+            "tax": "117141",
+            "total": "1437041",
+            "grand_total": "1437041",
+            "fee": null,
+            "earnings": null,
+            "currency_code": "USD"
+          },
+          "payout_totals": null,
+          "adjusted_payout_totals": null,
+          "line_items": [
+            {
+              "id": "txnitm_01h8bm0ffcr1mbwv2vnxnyxed2",
+              "price_id": "pri_01gsz91wy9k1yn7kx82aafwvea",
+              "quantity": 20,
+              "totals": {
+                "subtotal": "1000000",
+                "tax": "88750",
+                "discount": "0",
+                "total": "1088750"
+              },
+              "product": {
+                "id": "pro_01gsz4vmqbjk3x4vvtafffd540",
+                "name": "ChatApp Enterprise",
+                "description": "The ultimate solution for businesses that require top-of-the-line features and customizations. Includes all the features of the Pro plan, plus personalized onboarding, dedicated account management, and the ability to pay via invoice.",
+                "tax_category": "standard",
+                "image_url": "https://paddle-sandbox.s3.amazonaws.com/user/10889/2nmP8MQSret0aWeDemRw_icon1.png",
+                "status": "active",
+                "type": "standard",
+                "custom_data": null
+              },
+              "tax_rate": "0.08875",
+              "unit_totals": {
+                "subtotal": "50000",
+                "tax": "4437",
+                "discount": "0",
+                "total": "54437"
+              }
+            },
+            {
+              "id": "txnitm_01h8bm0ffcr1mbwv2vp17x5xvz",
+              "price_id": "pri_01gsz96z29d88jrmsf2ztbfgjg",
+              "quantity": 1,
+              "totals": {
+                "subtotal": "300000",
+                "tax": "26625",
+                "discount": "0",
+                "total": "326625"
+              },
+              "product": {
+                "id": "pro_01gsz92krfzy3hcx5h5rtgnfwz",
+                "name": "VIP support",
+                "description": "Get exclusive access to our expert team of product specialists, available to help you make the most of your ChatApp subscription.",
+                "tax_category": "standard",
+                "image_url": "https://paddle-sandbox.s3.amazonaws.com/user/10889/SW3OevDQ92dUHSkN5a2x_icon3.png",
+                "status": "active",
+                "type": "standard",
+                "custom_data": null
+              },
+              "tax_rate": "0.08875",
+              "unit_totals": {
+                "subtotal": "300000",
+                "tax": "26625",
+                "discount": "0",
+                "total": "326625"
+              }
+            },
+            {
+              "id": "txnitm_01h8bm0ffcr1mbwv2vp2xpbfk9",
+              "price_id": "pri_01gsz98e27ak2tyhexptwc58yk",
+              "quantity": 1,
+              "totals": {
+                "subtotal": "19900",
+                "tax": "1766",
+                "discount": "0",
+                "total": "21666"
+              },
+              "product": {
+                "id": "pro_01gsz97mq9pa4fkyy0wqenepkz",
+                "name": "Custom domains",
+                "description": "Make ChatApp truly your own with custom domains! Custom domains reinforce your brand identity and make it easy for your team to access ChatApp.",
+                "tax_category": "standard",
+                "image_url": "https://paddle-sandbox.s3.amazonaws.com/user/10889/SW3OevDQ92dUHSkN5a2x_icon3.png",
+                "status": "active",
+                "type": "standard",
+                "custom_data": null
+              },
+              "tax_rate": "0.08875",
+              "unit_totals": {
+                "subtotal": "19900",
+                "tax": "1766",
+                "discount": "0",
+                "total": "21666"
+              }
+            }
+          ]
+        },
+        "payments": [],
+        "checkout": {
+          "url": null
+        }
+      },
+      "meta": {
+        "request_id": "06799361-c802-4b0a-941e-b41844f31100"
+      }
+    }
+  },
+  "fetch_status": {
+    "response_200": {
+      "data": {
+        "id": "txn_01h8bm0f0gwa622zpcvw49hwc1",
+        "status": "ready",
+        "customer_id": "ctm_01h8441jn5pcwrfhwh78jqt8hk",
+        "address_id": "add_01h848pep46enq8y372x7maj0p",
+        "business_id": null,
+        "custom_data": null,
+        "origin": "api",
+        "collection_mode": "manual",
+        "subscription_id": null,
+        "invoice_id": "inv_01h8bm0gtxhgd7f37f4xx8b93m",
+        "invoice_number": null,
+        "billing_details": {
+          "enable_checkout": false,
+          "payment_terms": {
+            "interval": "day",
+            "frequency": 14
+          },
+          "purchase_order_number": "PO-123",
+          "additional_information": null
+        },
+        "billing_period": {
+          "starts_at": "2023-08-01T00:00:00Z",
+          "ends_at": "2024-07-31T23:59:00Z"
+        },
+        "currency_code": "USD",
+        "discount_id": null,
+        "created_at": "2023-08-21T08:40:00.766226Z",
+        "updated_at": "2023-08-21T08:40:04.111852Z",
+        "billed_at": null,
+        "items": [
+          {
+            "price": {
+              "id": "pri_01gsz91wy9k1yn7kx82aafwvea",
+              "description": "Annual (per seat)",
+              "name": "Annual (per seat)",
+              "product_id": "pro_01gsz4vmqbjk3x4vvtafffd540",
+              "billing_cycle": {
+                "interval": "year",
+                "frequency": 1
+              },
+              "trial_period": null,
+              "tax_mode": "account_setting",
+              "unit_price": {
+                "amount": "50000",
+                "currency_code": "USD"
+              },
+              "unit_price_overrides": [],
+              "quantity": {
+                "minimum": 1,
+                "maximum": 100
+              },
+              "status": "active",
+              "type": "standard",
+              "custom_data": null
+            },
+            "quantity": 20
+          },
+          {
+            "price": {
+              "id": "pri_01gsz96z29d88jrmsf2ztbfgjg",
+              "description": "Annual (recurring addon)",
+              "name": "Annual (recurring addon)",
+              "product_id": "pro_01gsz92krfzy3hcx5h5rtgnfwz",
+              "billing_cycle": {
+                "interval": "year",
+                "frequency": 1
+              },
+              "trial_period": null,
+              "tax_mode": "account_setting",
+              "unit_price": {
+                "amount": "300000",
+                "currency_code": "USD"
+              },
+              "unit_price_overrides": [],
+              "quantity": {
+                "minimum": 1,
+                "maximum": 1
+              },
+              "status": "active",
+              "type": "standard",
+              "custom_data": null
+            },
+            "quantity": 1
+          },
+          {
+            "price": {
+              "id": "pri_01gsz98e27ak2tyhexptwc58yk",
+              "description": "One-time charge",
+              "name": "One-time charge",
+              "product_id": "pro_01gsz97mq9pa4fkyy0wqenepkz",
+              "billing_cycle": null,
+              "trial_period": null,
+              "tax_mode": "account_setting",
+              "unit_price": {
+                "amount": "19900",
+                "currency_code": "USD"
+              },
+              "unit_price_overrides": [
+                {
+                  "country_codes": [
+                    "AU"
+                  ],
+                  "unit_price": {
+                    "amount": "40000",
+                    "currency_code": "AUD"
+                  }
+                }
+              ],
+              "quantity": {
+                "minimum": 1,
+                "maximum": 1
+              },
+              "status": "active",
+              "type": "standard",
+              "custom_data": null
+            },
+            "quantity": 1
+          }
+        ],
+        "details": {
+          "tax_rates_used": [
+            {
+              "tax_rate": "0.08875",
+              "totals": {
+                "subtotal": "1319900",
+                "discount": "0",
+                "tax": "117141",
+                "total": "1437041"
+              }
+            }
+          ],
+          "totals": {
+            "subtotal": "1319900",
+            "tax": "117141",
+            "discount": "0",
+            "total": "1437041",
+            "grand_total": "1437041",
+            "fee": null,
+            "credit": "0",
+            "credit_to_balance": "0",
+            "balance": "1437041",
+            "earnings": null,
+            "currency_code": "USD"
+          },
+          "adjusted_totals": {
+            "subtotal": "1319900",
+            "tax": "117141",
+            "total": "1437041",
+            "grand_total": "1437041",
+            "fee": null,
+            "earnings": null,
+            "currency_code": "USD"
+          },
+          "payout_totals": null,
+          "adjusted_payout_totals": null,
+          "line_items": [
+            {
+              "id": "txnitm_01h8bm0ffcr1mbwv2vnxnyxed2",
+              "price_id": "pri_01gsz91wy9k1yn7kx82aafwvea",
+              "quantity": 20,
+              "totals": {
+                "subtotal": "1000000",
+                "tax": "88750",
+                "discount": "0",
+                "total": "1088750"
+              },
+              "product": {
+                "id": "pro_01gsz4vmqbjk3x4vvtafffd540",
+                "name": "ChatApp Enterprise",
+                "description": "The ultimate solution for businesses that require top-of-the-line features and customizations. Includes all the features of the Pro plan, plus personalized onboarding, dedicated account management, and the ability to pay via invoice.",
+                "tax_category": "standard",
+                "image_url": "https://paddle-sandbox.s3.amazonaws.com/user/10889/2nmP8MQSret0aWeDemRw_icon1.png",
+                "status": "active",
+                "type": "standard",
+                "custom_data": null
+              },
+              "tax_rate": "0.08875",
+              "unit_totals": {
+                "subtotal": "50000",
+                "tax": "4437",
+                "discount": "0",
+                "total": "54437"
+              }
+            },
+            {
+              "id": "txnitm_01h8bm0ffcr1mbwv2vp17x5xvz",
+              "price_id": "pri_01gsz96z29d88jrmsf2ztbfgjg",
+              "quantity": 1,
+              "totals": {
+                "subtotal": "300000",
+                "tax": "26625",
+                "discount": "0",
+                "total": "326625"
+              },
+              "product": {
+                "id": "pro_01gsz92krfzy3hcx5h5rtgnfwz",
+                "name": "VIP support",
+                "description": "Get exclusive access to our expert team of product specialists, available to help you make the most of your ChatApp subscription.",
+                "tax_category": "standard",
+                "image_url": "https://paddle-sandbox.s3.amazonaws.com/user/10889/SW3OevDQ92dUHSkN5a2x_icon3.png",
+                "status": "active",
+                "type": "standard",
+                "custom_data": null
+              },
+              "tax_rate": "0.08875",
+              "unit_totals": {
+                "subtotal": "300000",
+                "tax": "26625",
+                "discount": "0",
+                "total": "326625"
+              }
+            },
+            {
+              "id": "txnitm_01h8bm0ffcr1mbwv2vp2xpbfk9",
+              "price_id": "pri_01gsz98e27ak2tyhexptwc58yk",
+              "quantity": 1,
+              "totals": {
+                "subtotal": "19900",
+                "tax": "1766",
+                "discount": "0",
+                "total": "21666"
+              },
+              "product": {
+                "id": "pro_01gsz97mq9pa4fkyy0wqenepkz",
+                "name": "Custom domains",
+                "description": "Make ChatApp truly your own with custom domains! Custom domains reinforce your brand identity and make it easy for your team to access ChatApp.",
+                "tax_category": "standard",
+                "image_url": "https://paddle-sandbox.s3.amazonaws.com/user/10889/SW3OevDQ92dUHSkN5a2x_icon3.png",
+                "status": "active",
+                "type": "standard",
+                "custom_data": null
+              },
+              "tax_rate": "0.08875",
+              "unit_totals": {
+                "subtotal": "19900",
+                "tax": "1766",
+                "discount": "0",
+                "total": "21666"
+              }
+            }
+          ]
+        },
+        "payments": [],
+        "checkout": {
+          "url": null
+        }
+      },
+      "meta": {
+        "request_id": "55a84e0a-8bf8-4921-9bb4-702cf8569e78"
+      }
+    }
+  },
+  "callbacks": []
+}

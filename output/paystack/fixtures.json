@@ -1,0 +1,19 @@
+{
+  "create_request": {
+    "response_401": {
+      "status": false,
+      "message": "Invalid key"
+    }
+  },
+  "fetch_status": {
+    "response_401": {
+      "status": false,
+      "message": "Invalid key"
+    },
+    "response_404": {
+      "status": false,
+      "message": "Entity not found"
+    }
+  },
+  "callbacks": []
+}
