@@ -10,19 +10,40 @@ require_relative "provider_integrator/generators"
 require_relative "provider_integrator/cli"
 
 module ProviderIntegrator
-  def self.build(spec_path)
-    document = Parsers::Openapi.new(spec_path).parse
-    Extractors::IntegrationExtractor.new(document).call
-  end
+  class << self
+    def build(spec_path)
+      document = Openapi3Parser.load_file(spec_path)
 
-  def self.generate(spec_path, output_dir: "output")
-    integration = build(spec_path)
-    [
-      Generators::ServiceGenerator,
-      Generators::DocumentationGenerator,
-      Generators::FixtureGenerator
-    ].map do |generator|
-      generator.new.call(integration, output_dir: output_dir)
+      unless document.valid?
+        raise Parsers::Error, format_errors(document.errors)
+      end
+
+      Extractors::IntegrationExtractor.new(document).call
+    rescue Openapi3Parser::Error => exception
+      raise Parsers::Error, "OpenAPI parsing failed: #{exception.message}"
+    end
+
+    private
+
+    def format_errors(error_collection)
+      errors =
+        if error_collection.respond_to?(:to_h)
+          error_collection.to_h
+        elsif error_collection.respond_to?(:errors)
+          error_collection.errors
+        else
+          return "OpenAPI specification is invalid:\n#{error_collection.inspect}"
+        end
+
+      lines = ["OpenAPI specification is invalid:"]
+
+      errors.each do |path, messages|
+        Array(messages).each do |message|
+          lines << "  #{path}: #{message}"
+        end
+      end
+
+      lines.join("\n")
     end
   end
 end
