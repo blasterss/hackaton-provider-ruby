@@ -7,6 +7,7 @@ module ProviderIntegrator
       def call
         webhook = Webhook::Extractor.new(document).call
         create_request = CreateRequest::Extractor.new(document).call
+        provider = ProviderExtractor.new(document).call
         operations = [
           create_request,
           *Operations::Extractor.new(document).call
@@ -17,7 +18,8 @@ module ProviderIntegrator
         fixtures = FixtureExtractor.new(document, operations: operations, webhook: webhook).call
 
         Model::Integration.new(
-          provider: ProviderExtractor.new(document).call,
+          provider: provider,
+          gateway_config: ProviderIntegrator::ProviderGatewayRegistry.fetch(provider.slug),
           authentication: AuthenticationExtractor.new(document, operations: operations).call,
           operations: operations,
           webhook: webhook,
