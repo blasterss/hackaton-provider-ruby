@@ -48,7 +48,7 @@ module ProviderIntegrator
       end
 
       def normalize_root
-        remove_root_field("webhooks")
+        move_webhooks_to_paths
       end
 
       def normalize_components
@@ -100,6 +100,34 @@ module ProviderIntegrator
           value: examples,
           reason: "Schema Object `examples` is not supported by openapi3_parser 0.10.1"
         }
+      end
+
+      def move_webhooks_to_paths
+        webhooks = document.delete("webhooks")
+        return unless webhooks.is_a?(Hash)
+
+        document["paths"] ||= {}
+
+        webhooks.each do |name, path_item|
+          path = webhook_path(name)
+
+          if document["paths"].key?(path)
+            raise ArgumentError, "Webhook path collision: #{path}"
+          end
+
+          document["paths"][path] = path_item
+        end
+
+        changes << {
+          path: "#/webhooks",
+          action: :move,
+          to: "#/paths",
+          reason: "OpenAPI 3.1 webhooks are represented as paths for openapi3_parser 0.10.1"
+        }
+      end
+
+      def webhook_path(name)
+        "/webhooks/#{name}"
       end
 
       def remove_root_field(name)
