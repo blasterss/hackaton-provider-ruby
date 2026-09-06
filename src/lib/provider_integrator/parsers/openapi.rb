@@ -11,11 +11,32 @@ module ProviderIntegrator
     end
 
     class InvalidSpecificationError < Error
+      DEFAULT_ERROR_LIMIT = 10
+
       attr_reader :errors
 
-      def initialize(errors)
+      def initialize(errors, limit: DEFAULT_ERROR_LIMIT)
         @errors = errors
-        super("OpenAPI specification is invalid: #{errors}")
+        @limit = limit
+        super(build_message(errors))
+      end
+
+      private
+
+      attr_reader :limit
+
+      def build_message(errors)
+        error_list = errors.to_h
+        display_errors = error_list.first(limit)
+
+        lines = display_errors.map do |path, messages|
+          "#{path}: #{Array(messages).join(", ")}"
+        end
+
+        remaining_count = error_list.size - display_errors.size
+        lines << "...and #{remaining_count} more errors" if remaining_count.positive?
+
+        "OpenAPI specification is invalid:\n#{lines.join("\n")}"
       end
     end
 
@@ -32,7 +53,9 @@ module ProviderIntegrator
 
         document = Openapi3Parser.load(normalization.document)
 
-        raise InvalidSpecificationError, document.errors unless document.valid?
+        unless document.valid?
+          raise InvalidSpecificationError.new(document.errors)
+        end
 
         document
       rescue Openapi3Parser::Error::InaccessibleInput => error
