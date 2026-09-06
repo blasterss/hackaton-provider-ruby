@@ -7,6 +7,8 @@ module ProviderIntegrator
       class UnsupportedAuthenticationError < StandardError
       end
 
+      SUPPORTED_SCHEME_TYPES = %w[apiKey http].freeze
+
       def initialize(document, operations:)
         super(document)
         @operations = operations
@@ -30,20 +32,31 @@ module ProviderIntegrator
       end
 
       def required_security_scheme_names
-        operations.flat_map do |operation|
-          openapi_operation = document.paths[operation.path]&.public_send(operation.http_method)
-          security_requirements(openapi_operation).flat_map(&:keys)
-        end.uniq
+        operations
+          .flat_map do |operation|
+          openapi_operation =
+            document.paths[operation.path]&.public_send(operation.http_method)
+          security_requirements(openapi_operation)
+        end
+        .flat_map(&:keys)
+        .uniq
+        .select { |name| supported_security_scheme?(name) }
+      end
+
+      def supported_security_scheme?(name)
+        scheme = security_schemes[name]
+        scheme && SUPPORTED_SCHEME_TYPES.include?(scheme.type)
       end
 
       def security_requirements(operation)
         return [] unless operation
 
-        requirements = if operation.node_context.input.key?("security")
-                         operation.security.to_a
-                       else
-                         document.security.to_a
-                       end
+        requirements =
+          if operation.node_context.input.key?("security")
+            operation.security.to_a
+          else
+            document.security.to_a
+          end
         requirements.any? { |requirement| requirement.keys.empty? } ? [] : requirements
       end
 
