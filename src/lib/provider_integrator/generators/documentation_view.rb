@@ -14,7 +14,8 @@ module ProviderIntegrator
         create_request: "Создание операции",
         fetch_status: "Получение статуса",
         cancel: "Отмена операции",
-        fetch_balance: "Получение баланса"
+        fetch_balance: "Получение баланса",
+        unsupported: "API endpoint"
       }.freeze
 
       def initialize(integration)

@@ -46,6 +46,15 @@ module ProviderIntegrator
           response.content&.values&.filter_map(&:schema) || []
         end
       end
+
+      def extension(node, name)
+        node&.node_context&.input&.[](name)
+      end
+
+      def extension_hash(node, name)
+        value = extension(node, name)
+        value.is_a?(Hash) ? value : {}
+      end
     end
   end
 end

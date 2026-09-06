@@ -43,6 +43,17 @@ module ProviderIntegrator
         "#{target} = #{value_expression(mapping)}"
       end
 
+      def status_response_expression(operation)
+        path = operation.status_source_path || "response.status"
+        root, *segments = path.split(".")
+        raise UnsupportedMappingError,
+              "Unsupported status source path: #{path}" unless root == "response" && segments.any?
+
+        return "response.body.fetch(#{segments.first.dump})" if segments.one?
+
+        "response.body.dig(#{segments.map(&:dump).join(", ")})"
+      end
+
       def condition_failure_expression(condition)
         field = source_expression(condition.field)
         value = ruby_literal(condition.value)

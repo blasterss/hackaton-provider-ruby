@@ -21,7 +21,7 @@ module ProviderIntegrator
                 http_method: http_method,
                 operation: operation
               ).call
-              build_endpoint(role, path, path_item, http_method, operation) if role
+              build_endpoint(role, path, path_item, http_method, operation)
             end
           end
         end

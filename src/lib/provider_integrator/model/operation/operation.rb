@@ -20,6 +20,7 @@ module ProviderIntegrator
       :parameters,
       :request_fields,
       :responses,
+      :status_source_path,
       :source_pointer
     ) do
       include ValueObject
@@ -32,6 +33,7 @@ module ProviderIntegrator
         parameters: [],
         request_fields: [],
         responses: [],
+        status_source_path: nil,
         source_pointer: nil
       )
         super(
@@ -42,6 +44,7 @@ module ProviderIntegrator
           parameters: immutable(parameters),
           request_fields: immutable(request_fields),
           responses: immutable(responses),
+          status_source_path: status_source_path,
           source_pointer: source_pointer
         )
       end

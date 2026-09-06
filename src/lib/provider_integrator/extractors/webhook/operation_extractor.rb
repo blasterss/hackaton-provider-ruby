@@ -6,6 +6,7 @@ module ProviderIntegrator
       # Находит входящую webhook-операцию в OpenAPI paths.
       class OperationExtractor < Base
         Endpoint = Data.define(:path, :path_item, :operation)
+        ROLE_EXTENSION = "x-provider-integrator-role"
 
         def call
           document.paths.each do |path, path_item|
@@ -22,6 +23,9 @@ module ProviderIntegrator
         private
 
         def webhook_operation?(operation)
+          explicit_role = operation.node_context.input[ROLE_EXTENSION]
+          return true if explicit_role.to_s.tr("-", "_") == "webhook"
+
           operation.operation_id.to_s.match?(/webhook|callback/i) ||
             operation.tags.to_a.any? { |tag| tag.match?(/webhook|callback/i) }
         end

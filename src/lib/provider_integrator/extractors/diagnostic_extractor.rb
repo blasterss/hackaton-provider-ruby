@@ -161,6 +161,9 @@ module ProviderIntegrator
 
       def provider_statuses(fetch_status)
         openapi_operation = document.paths[fetch_status.path]&.public_send(fetch_status.http_method)
+        explicit_mappings = extension_hash(openapi_operation, "x-provider-integrator-status-mappings")
+        return explicit_mappings.keys.map(&:to_s) if explicit_mappings.any?
+
         success_schemas(openapi_operation).flat_map do |schema|
           schema.properties&.[]("status")&.enum&.to_a || []
         end.uniq

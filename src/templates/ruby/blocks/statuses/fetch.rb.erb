@@ -20,5 +20,5 @@
       return response unless [<%= success_statuses.join(", ") %>].include?(response.status.to_i)
 <% end -%>
 
-      map_status(response.body.fetch("status"))
+      map_status(<%= service_view.status_response_expression(status_operation) %>)
     end

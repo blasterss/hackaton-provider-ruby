@@ -6,10 +6,13 @@ module ProviderIntegrator
     class IntegrationExtractor < Base
       def call
         webhook = Webhook::Extractor.new(document).call
+        create_request = CreateRequest::Extractor.new(document).call
         operations = [
-          CreateRequest::Extractor.new(document).call,
+          create_request,
           *Operations::Extractor.new(document).call
-        ].compact.reject { |operation| webhook_operation?(operation, webhook) }
+        ].compact.reject do |operation|
+          webhook_operation?(operation, webhook) || duplicate_create_request?(operation, create_request)
+        end
         status_mappings = StatusMappingExtractor.new(document, operations: operations).call
         fixtures = FixtureExtractor.new(document, operations: operations, webhook: webhook).call
 
@@ -36,6 +39,11 @@ module ProviderIntegrator
 
       def webhook_operation?(operation, webhook)
         webhook && operation.http_method == :post && operation.path == webhook.path
+      end
+
+      def duplicate_create_request?(operation, create_request)
+        create_request && operation.role != :create_request &&
+          operation.http_method == create_request.http_method && operation.path == create_request.path
       end
     end
   end

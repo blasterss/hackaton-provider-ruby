@@ -5,6 +5,7 @@ module ProviderIntegrator
     module Operations
       # Определяет сервисную роль исходящей операции по OpenAPI metadata и response schema.
       class RoleExtractor < Base
+        ROLE_EXTENSION = "x-provider-integrator-role"
         ROLE_PATTERNS = {
           cancel: /cancel/i,
           fetch_balance: /balance/i,
@@ -20,12 +21,19 @@ module ProviderIntegrator
         end
 
         def call
-          metadata_role || response_role
+          explicit_role || metadata_role || response_role
         end
 
         private
 
         attr_reader :path, :path_item, :http_method, :operation
+
+        def explicit_role
+          value = extension(operation, ROLE_EXTENSION)
+          return unless value.is_a?(String) && !value.empty?
+
+          value.tr("-", "_").to_sym
+        end
 
         def metadata_role
           text = [operation.operation_id, path].compact.join(" ")
